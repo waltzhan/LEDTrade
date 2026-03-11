@@ -47,6 +47,12 @@ export default async function ContactPage({ params }: { params: Promise<{ locale
     return `/${locale}${path}`;
   };
 
+  // 地址根据语言切换
+  const addressValue = locale === 'zh' 
+    ? '厦门火炬高新区（翔安）产业区民安大道1800-1812号' 
+    : 'No.1800-1812 Min\'an Avenue, Xiang\'an Torch High-tech Zone, Xiamen, China';
+  const emailValue = 'sales@ledcoreco.com';
+
   // 从翻译文件获取标签文本
   const t = (key: string) => {
     const keys = key.split('.');
@@ -57,11 +63,22 @@ export default async function ContactPage({ params }: { params: Promise<{ locale
     return value || key;
   };
 
-  // 地址根据语言切换
-  const addressValue = locale === 'zh' 
-    ? '厦门火炬高新区（翔安）产业区民安大道1800-1812号' 
-    : 'No.1800-1812 Min\'an Avenue, Xiang\'an Torch High-tech Zone, Xiamen, China';
-  const emailValue = 'sales@ledcoreco.com';
+  // 表单标签
+  const labels = {
+    companyName: t('contact.companyName'),
+    contactName: t('contact.contactName'),
+    email: t('contact.email'),
+    phone: t('contact.phone'),
+    country: t('contact.country'),
+    products: t('contact.products'),
+    quantity: t('contact.quantity'),
+    message: t('contact.message'),
+    submit: t('contact.submit'),
+    contactInfo: t('contact.contactInfo'),
+    address: t('contact.address'),
+    addressValue: addressValue,
+    emailValue: emailValue,
+  };
 
   return (
     <main className="min-h-screen bg-gray-50">
@@ -115,7 +132,7 @@ export default async function ContactPage({ params }: { params: Promise<{ locale
                       type="email"
                       required
                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                      placeholder="example@company.com"
+                      placeholder={t('contact.placeholder.email')}
                     />
                   </div>
                   <div>
@@ -126,7 +143,7 @@ export default async function ContactPage({ params }: { params: Promise<{ locale
                       type="tel"
                       required
                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                      placeholder="+60 123 456 789"
+                      placeholder={t('contact.placeholder.phone')}
                     />
                   </div>
                 </div>
@@ -140,7 +157,7 @@ export default async function ContactPage({ params }: { params: Promise<{ locale
                     required
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   >
-                    <option value="">{locale === 'zh' ? '请选择国家/地区' : 'Select Country/Region'}</option>
+                    <option value="">{t('contact.selectCountry')}</option>
                     <option value="malaysia">Malaysia</option>
                     <option value="indonesia">Indonesia</option>
                     <option value="thailand">Thailand</option>
@@ -178,11 +195,11 @@ export default async function ContactPage({ params }: { params: Promise<{ locale
                     {labels.quantity}
                   </label>
                   <select className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                    <option value="">{locale === 'zh' ? '请选择数量范围' : 'Select Quantity Range'}</option>
-                    <option value="1k-10k">1,000 - 10,000 pcs</option>
-                    <option value="10k-50k">10,000 - 50,000 pcs</option>
-                    <option value="50k-100k">50,000 - 100,000 pcs</option>
-                    <option value="100k+">100,000+ pcs</option>
+                    <option value="">{t('contact.selectQuantity')}</option>
+                    <option value="1k-10k">{t('contact.quantityOptions.1k-10k')}</option>
+                    <option value="10k-50k">{t('contact.quantityOptions.10k-50k')}</option>
+                    <option value="50k-100k">{t('contact.quantityOptions.50k-100k')}</option>
+                    <option value="100k+">{t('contact.quantityOptions.100k+')}</option>
                   </select>
                 </div>
 
@@ -194,7 +211,7 @@ export default async function ContactPage({ params }: { params: Promise<{ locale
                   <textarea
                     rows={5}
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
-                    placeholder={locale === 'zh' ? '请描述您的具体需求，如应用场景、技术要求、交付时间等...' : 'Please describe your specific requirements, such as application scenarios, technical requirements, delivery time, etc.'}
+                    placeholder={t('contact.placeholder.message')}
                   />
                 </div>
 
@@ -241,7 +258,7 @@ export default async function ContactPage({ params }: { params: Promise<{ locale
             {/* Quick Links */}
             <div className="bg-blue-50 rounded-lg p-6">
               <h3 className="text-lg font-bold text-gray-900 mb-4">
-                {locale === 'zh' ? '快速链接' : locale === 'ar' ? 'روابط سريعة' : 'Quick Links'}
+                {t('footer.quickLinks')}
               </h3>
               <nav className="space-y-2">
                 <Link href={getLocalizedHref('/products')} className="block text-blue-900 hover:underline">
