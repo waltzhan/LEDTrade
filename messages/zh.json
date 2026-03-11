@@ -43,7 +43,8 @@
     "applications": "应用场景",
     "downloadDatasheet": "下载数据手册",
     "productNotFound": "产品未找到",
-    "backToProducts": "返回产品列表"
+    "backToProducts": "返回产品列表",
+    "model": "型号"
   },
   "contact": {
     "title": "联系我们",

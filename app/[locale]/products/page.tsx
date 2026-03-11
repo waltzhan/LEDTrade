@@ -95,9 +95,9 @@ export default async function ProductsPage({ params }: { params: Promise<{ local
       {/* Header Section */}
       <section className="bg-gradient-to-br from-blue-900 via-blue-800 to-blue-900 text-white py-16 px-4">
         <div className="max-w-7xl mx-auto text-center">
-          <h1 className="text-4xl md:text-5xl font-bold mb-4">{t('navigation.products')}</h1>
+          <h1 className="text-4xl md:text-5xl font-bold mb-4">{t('products.title')}</h1>
           <p className="text-xl text-blue-200 max-w-2xl mx-auto">
-            Professional LED solutions for Southeast Asia and Middle East markets
+            {t('hero.description')}
           </p>
         </div>
       </section>
@@ -108,14 +108,14 @@ export default async function ProductsPage({ params }: { params: Promise<{ local
           <aside className="lg:w-64 flex-shrink-0">
             <div className="bg-white rounded-lg shadow-md p-6 sticky top-24">
               <h2 className="text-lg font-semibold text-gray-900 mb-4">
-                {locale === 'zh' ? '产品分类' : 'Categories'}
+                {t('products.categoriesTitle')}
               </h2>
               <nav className="space-y-2">
                 <Link
                   href={getLocalizedHref('/products')}
                   className="block px-3 py-2 rounded-md text-sm font-medium bg-blue-50 text-blue-900"
                 >
-                  {locale === 'zh' ? '全部产品' : 'All Products'}
+                  {t('products.allProducts')}
                 </Link>
                 {categories.map((category: any) => (
                   <Link
@@ -135,7 +135,7 @@ export default async function ProductsPage({ params }: { params: Promise<{ local
             {products.length === 0 ? (
               <div className="text-center py-12">
                 <p className="text-gray-500 text-lg">
-                  {locale === 'zh' ? '暂无产品' : 'No products available'}
+                  {t('products.noProducts')}
                 </p>
               </div>
             ) : (
@@ -158,7 +158,7 @@ export default async function ProductsPage({ params }: { params: Promise<{ local
                       {/* Status Badge */}
                       {product.status === 'new' && (
                         <span className="absolute top-3 left-3 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded">
-                          NEW
+                          {t('common.new')}
                         </span>
                       )}
                     </div>
@@ -172,7 +172,7 @@ export default async function ProductsPage({ params }: { params: Promise<{ local
                         {product.name[locale] || product.name.en}
                       </h3>
                       <p className="text-sm text-gray-500 mb-2">
-                        Model: {product.model}
+                        {t('products.model') || 'Model'}: {product.model}
                       </p>
                       <p className="text-sm text-gray-600 mb-4 line-clamp-2">
                         {product.shortDescription?.[locale] || product.shortDescription?.en}
@@ -197,7 +197,7 @@ export default async function ProductsPage({ params }: { params: Promise<{ local
                         href={getLocalizedHref(`/products/${product.slug.current}`)}
                         className="block w-full text-center bg-blue-900 text-white py-2 rounded-md font-medium hover:bg-blue-800 transition-colors"
                       >
-                        {locale === 'zh' ? '查看详情' : 'View Details'} →
+                        {t('products.viewDetails')} →
                       </Link>
                     </div>
                   </article>

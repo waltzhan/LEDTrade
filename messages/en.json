@@ -43,7 +43,8 @@
     "applications": "Applications",
     "downloadDatasheet": "Download Datasheet",
     "productNotFound": "Product Not Found",
-    "backToProducts": "Back to Products"
+    "backToProducts": "Back to Products",
+    "model": "Model"
   },
   "contact": {
     "title": "Contact Us",

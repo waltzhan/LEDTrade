@@ -47,39 +47,29 @@ export default async function ContactPage({ params }: { params: Promise<{ locale
     return `/${locale}${path}`;
   };
 
-  // 根据语言获取标签文本
-  const labels = {
-    title: locale === 'zh' ? '联系我们' : locale === 'ar' ? 'اتصل بنا' : 'Contact Us',
-    subtitle: locale === 'zh' 
-      ? '有LED产品需求？请填写以下表单，我们将尽快与您联系。' 
-      : locale === 'ar'
-      ? 'هل لديك احتياجات LED؟ يرجى ملء النموذج أدناه وسنقوم بالاتصال بك قريبًا.'
-      : 'Have LED product needs? Please fill out the form below and we will contact you soon.',
-    companyName: locale === 'zh' ? '公司名称' : locale === 'ar' ? 'اسم الشركة' : 'Company Name',
-    contactName: locale === 'zh' ? '联系人姓名' : locale === 'ar' ? 'اسم جهة الاتصال' : 'Contact Name',
-    email: locale === 'zh' ? '电子邮箱' : locale === 'ar' ? 'البريد الإلكتروني' : 'Email',
-    phone: locale === 'zh' ? '联系电话' : locale === 'ar' ? 'رقم الهاتف' : 'Phone Number',
-    country: locale === 'zh' ? '国家/地区' : locale === 'ar' ? 'البلد / المنطقة' : 'Country/Region',
-    products: locale === 'zh' ? '感兴趣的产品' : locale === 'ar' ? 'المنتجات المهتمة' : 'Products of Interest',
-    quantity: locale === 'zh' ? '预计采购数量' : locale === 'ar' ? 'الكمية المتوقعة' : 'Estimated Quantity',
-    message: locale === 'zh' ? '详细需求描述' : locale === 'ar' ? 'وصف متطلبات مفصل' : 'Detailed Requirements',
-    submit: locale === 'zh' ? '提交询盘' : locale === 'ar' ? 'إرسال الاستفسار' : 'Submit Inquiry',
-    required: locale === 'zh' ? '必填' : locale === 'ar' ? 'مطلوب' : 'Required',
-    contactInfo: locale === 'zh' ? '联系信息' : locale === 'ar' ? 'معلومات الاتصال' : 'Contact Information',
-    address: locale === 'zh' ? '公司地址' : locale === 'ar' ? 'عنوان الشركة' : 'Company Address',
-    addressValue: locale === 'zh' 
-      ? '厦门火炬高新区（翔安）产业区民安大道1800-1812号' 
-      : 'No.1800-1812 Min\'an Avenue, Xiang\'an Torch High-tech Zone, Xiamen, China',
-    emailValue: 'sales@ledcoreco.com',
+  // 从翻译文件获取标签文本
+  const t = (key: string) => {
+    const keys = key.split('.');
+    let value: any = messages;
+    for (const k of keys) {
+      value = value?.[k];
+    }
+    return value || key;
   };
+
+  // 地址根据语言切换
+  const addressValue = locale === 'zh' 
+    ? '厦门火炬高新区（翔安）产业区民安大道1800-1812号' 
+    : 'No.1800-1812 Min\'an Avenue, Xiang\'an Torch High-tech Zone, Xiamen, China';
+  const emailValue = 'sales@ledcoreco.com';
 
   return (
     <main className="min-h-screen bg-gray-50">
       {/* Header Section */}
       <section className="bg-gradient-to-br from-blue-900 via-blue-800 to-blue-900 text-white py-16 px-4">
         <div className="max-w-7xl mx-auto text-center">
-          <h1 className="text-4xl md:text-5xl font-bold mb-4">{labels.title}</h1>
-          <p className="text-xl text-blue-200 max-w-2xl mx-auto">{labels.subtitle}</p>
+          <h1 className="text-4xl md:text-5xl font-bold mb-4">{t('contact.title')}</h1>
+          <p className="text-xl text-blue-200 max-w-2xl mx-auto">{t('contact.subtitle')}</p>
         </div>
       </section>
 

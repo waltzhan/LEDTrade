@@ -43,7 +43,8 @@
     "applications": "Aplikasi",
     "downloadDatasheet": "Unduh Datasheet",
     "productNotFound": "Produk Tidak Ditemukan",
-    "backToProducts": "Kembali ke Produk"
+    "backToProducts": "Kembali ke Produk",
+    "model": "Model"
   },
   "contact": {
     "title": "Hubungi Kami",
