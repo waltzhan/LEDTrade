@@ -32,9 +32,68 @@
       "plccLed": "PLCC LED",
       "irSensor": "红外传感器",
       "uvLed": "UV LED"
+    },
+    "viewDetails": "查看详情",
+    "allProducts": "全部产品",
+    "categoriesTitle": "产品分类",
+    "noProducts": "暂无产品",
+    "targetMarkets": "目标市场",
+    "specifications": "技术规格",
+    "features": "产品特性",
+    "applications": "应用场景",
+    "downloadDatasheet": "下载数据手册",
+    "productNotFound": "产品未找到",
+    "backToProducts": "返回产品列表"
+  },
+  "contact": {
+    "title": "联系我们",
+    "subtitle": "有LED产品需求？请填写以下表单，我们将尽快与您联系。",
+    "companyName": "公司名称",
+    "contactName": "联系人姓名",
+    "email": "电子邮箱",
+    "phone": "联系电话",
+    "country": "国家/地区",
+    "products": "感兴趣的产品",
+    "quantity": "预计采购数量",
+    "message": "详细需求描述",
+    "submit": "提交询盘",
+    "required": "必填",
+    "contactInfo": "联系信息",
+    "address": "公司地址",
+    "selectCountry": "请选择国家/地区",
+    "selectQuantity": "请选择数量范围",
+    "placeholder": {
+      "email": "example@company.com",
+      "phone": "+60 123 456 789",
+      "message": "请描述您的具体需求，如应用场景、技术要求、交付时间等..."
+    },
+    "quantityOptions": {
+      "1k-10k": "1,000 - 10,000 件",
+      "10k-50k": "10,000 - 50,000 件",
+      "50k-100k": "50,000 - 100,000 件",
+      "100k+": "100,000+ 件"
     }
   },
   "footer": {
-    "copyright": "© 2024 厦门光莆电子股份有限公司 版权所有"
+    "copyright": "© 2024 厦门光莆电子股份有限公司 版权所有",
+    "quickLinks": "快速链接",
+    "contactUs": "联系我们",
+    "address": "地址",
+    "email": "邮箱",
+    "followUs": "关注我们",
+    "certifications": "资质认证"
+  },
+  "common": {
+    "loading": "加载中...",
+    "error": "发生错误",
+    "retry": "重试",
+    "close": "关闭",
+    "open": "打开",
+    "search": "搜索",
+    "filter": "筛选",
+    "sort": "排序",
+    "new": "新品",
+    "popular": "热门",
+    "learnMore": "了解更多"
   }
 }

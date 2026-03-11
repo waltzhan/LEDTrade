@@ -32,9 +32,68 @@
       "plccLed": "PLCC LED",
       "irSensor": "Sensor IR",
       "uvLed": "LED UV"
+    },
+    "viewDetails": "Lihat Detail",
+    "allProducts": "Semua Produk",
+    "categoriesTitle": "Kategori",
+    "noProducts": "Tidak ada produk",
+    "targetMarkets": "Pasar Target",
+    "specifications": "Spesifikasi",
+    "features": "Fitur",
+    "applications": "Aplikasi",
+    "downloadDatasheet": "Unduh Datasheet",
+    "productNotFound": "Produk Tidak Ditemukan",
+    "backToProducts": "Kembali ke Produk"
+  },
+  "contact": {
+    "title": "Hubungi Kami",
+    "subtitle": "Punya kebutuhan produk LED? Silakan isi formulir di bawah dan kami akan segera menghubungi Anda.",
+    "companyName": "Nama Perusahaan",
+    "contactName": "Nama Kontak",
+    "email": "Email",
+    "phone": "Nomor Telepon",
+    "country": "Negara/Wilayah",
+    "products": "Produk yang Diminati",
+    "quantity": "Perkiraan Kuantitas",
+    "message": "Deskripsi Kebutuhan Detail",
+    "submit": "Kirim Permintaan",
+    "required": "Wajib",
+    "contactInfo": "Informasi Kontak",
+    "address": "Alamat Perusahaan",
+    "selectCountry": "Pilih Negara/Wilayah",
+    "selectQuantity": "Pilih Rentang Kuantitas",
+    "placeholder": {
+      "email": "example@company.com",
+      "phone": "+60 123 456 789",
+      "message": "Silakan jelaskan kebutuhan spesifik Anda, seperti skenario aplikasi, persyaratan teknis, waktu pengiriman, dll."
+    },
+    "quantityOptions": {
+      "1k-10k": "1,000 - 10,000 pcs",
+      "10k-50k": "10,000 - 50,000 pcs",
+      "50k-100k": "50,000 - 100,000 pcs",
+      "100k+": "100,000+ pcs"
     }
   },
   "footer": {
-    "copyright": "© 2024 Xiamen Guangpu Electronics Co., Ltd. Hak cipta dilindungi."
+    "copyright": "© 2024 Xiamen Guangpu Electronics Co., Ltd. Hak cipta dilindungi.",
+    "quickLinks": "Tautan Cepat",
+    "contactUs": "Hubungi Kami",
+    "address": "Alamat",
+    "email": "Email",
+    "followUs": "Ikuti Kami",
+    "certifications": "Sertifikasi"
+  },
+  "common": {
+    "loading": "Memuat...",
+    "error": "Terjadi kesalahan",
+    "retry": "Coba Lagi",
+    "close": "Tutup",
+    "open": "Buka",
+    "search": "Cari",
+    "filter": "Filter",
+    "sort": "Urutkan",
+    "new": "Baru",
+    "popular": "Populer",
+    "learnMore": "Pelajari Lebih Lanjut"
   }
 }
