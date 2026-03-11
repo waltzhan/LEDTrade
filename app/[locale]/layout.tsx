@@ -1,11 +1,32 @@
 import { notFound } from 'next/navigation';
-import { locales, type Locale, rtlLocales } from '@/lib/i18n/config';
+import { Metadata } from 'next';
+import { locales, type Locale, rtlLocales, defaultLocale } from '@/lib/i18n/config';
 import Navbar from '@/components/layout/navbar';
 import Footer from '@/components/layout/footer';
 import './globals.css';
 
+const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://ledcoreco.com';
+
 export function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
+}
+
+// 生成hreflang标签用于SEO
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
+  const { locale } = await params;
+  
+  // 为每种语言生成alternate链接
+  const alternateLanguages: Record<string, string> = {};
+  for (const loc of locales) {
+    alternateLanguages[loc] = `${baseUrl}/${loc}`;
+  }
+  
+  return {
+    alternates: {
+      canonical: `${baseUrl}/${locale}`,
+      languages: alternateLanguages,
+    },
+  };
 }
 
 // 加载翻译消息
