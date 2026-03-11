@@ -68,10 +68,9 @@ export default async function ContactPage({ params }: { params: Promise<{ locale
     contactInfo: locale === 'zh' ? '联系信息' : locale === 'ar' ? 'معلومات الاتصال' : 'Contact Information',
     address: locale === 'zh' ? '公司地址' : locale === 'ar' ? 'عنوان الشركة' : 'Company Address',
     addressValue: locale === 'zh' 
-      ? '中国福建省厦门市集美区光莆路1号' 
-      : 'No.1 Guangpu Road, Jimei District, Xiamen, Fujian, China',
-    phoneValue: '+86-592-12345678',
-    emailValue: 'sales@gopro-led.com',
+      ? '厦门火炬高新区（翔安）产业区民安大道1800-1812号' 
+      : 'No.1800-1812 Min\'an Avenue, Xiang\'an Torch High-tech Zone, Xiamen, China',
+    emailValue: 'sales@ledcoreco.com',
   };
 
   return (
@@ -234,16 +233,6 @@ export default async function ContactPage({ params }: { params: Promise<{ locale
                   <div>
                     <p className="font-medium text-gray-900">{labels.address}</p>
                     <p className="text-sm text-gray-600 mt-1">{labels.addressValue}</p>
-                  </div>
-                </div>
-
-                <div className="flex items-start">
-                  <svg className="w-5 h-5 text-blue-900 mt-1 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-                  </svg>
-                  <div>
-                    <p className="font-medium text-gray-900">{labels.phone}</p>
-                    <p className="text-sm text-gray-600 mt-1">{labels.phoneValue}</p>
                   </div>
                 </div>
 
