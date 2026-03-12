@@ -2,20 +2,20 @@ import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import { locales, defaultLocale } from '@/lib/i18n/config';
 
-// 浏览器语言到网站语言的映射
+// 浏览器语言到网站语言的映射（全部小写以便不区分大小写匹配）
 const browserLocaleMap: Record<string, string> = {
   'zh': 'zh',
-  'zh-CN': 'zh',
-  'zh-TW': 'zh',
-  'zh-HK': 'zh',
+  'zh-cn': 'zh',
+  'zh-tw': 'zh',
+  'zh-hk': 'zh',
   'id': 'id',
   'ms': 'id', // 马来语映射到印尼语
   'th': 'th',
   'vi': 'vi',
   'ar': 'ar',
   'en': 'en',
-  'en-US': 'en',
-  'en-GB': 'en',
+  'en-us': 'en',
+  'en-gb': 'en',
 };
 
 // 获取浏览器首选语言
@@ -44,14 +44,15 @@ function getBrowserLocale(request: NextRequest): string {
 
   // 查找匹配的语言
   for (const { code } of languages) {
-    console.log(`[Middleware] Checking code: ${code}`);
-    // 精确匹配
-    if (browserLocaleMap[code]) {
-      console.log(`[Middleware] Matched exact: ${code} -> ${browserLocaleMap[code]}`);
-      return browserLocaleMap[code];
+    const lowerCode = code.toLowerCase();
+    console.log(`[Middleware] Checking code: ${code} (lowercase: ${lowerCode})`);
+    // 精确匹配（不区分大小写）
+    if (browserLocaleMap[lowerCode]) {
+      console.log(`[Middleware] Matched exact: ${lowerCode} -> ${browserLocaleMap[lowerCode]}`);
+      return browserLocaleMap[lowerCode];
     }
     // 前缀匹配 (如 "en-US" 匹配 "en")
-    const prefix = code.split('-')[0];
+    const prefix = lowerCode.split('-')[0];
     if (browserLocaleMap[prefix]) {
       console.log(`[Middleware] Matched prefix: ${prefix} -> ${browserLocaleMap[prefix]}`);
       return browserLocaleMap[prefix];
