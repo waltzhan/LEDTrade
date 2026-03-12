@@ -67,7 +67,13 @@ export function middleware(request: NextRequest) {
   const browserLocale = getBrowserLocale(request);
   const newUrl = new URL(`/${browserLocale}${pathname === '/' ? '' : pathname}`, request.url);
 
-  return NextResponse.redirect(newUrl);
+  // 使用 302 临时重定向，并禁用缓存
+  const response = NextResponse.redirect(newUrl, 302);
+  response.headers.set('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
+  response.headers.set('Pragma', 'no-cache');
+  response.headers.set('Expires', '0');
+  
+  return response;
 }
 
 export const config = {
