@@ -8,11 +8,15 @@ export default defineType({
   fields: [
     defineField({
       name: 'name',
-      title: '分类名称',
+      title: '分类名称 (多语言)',
       type: 'object',
       fields: [
-        { name: 'zh', title: '中文', type: 'string', validation: (Rule: any) => Rule.required() },
-        { name: 'en', title: 'English', type: 'string', validation: (Rule: any) => Rule.required() },
+        { name: 'zh', title: '中文 (必填)', type: 'string', validation: (Rule: any) => Rule.required() },
+        { name: 'en', title: 'English (必填)', type: 'string', validation: (Rule: any) => Rule.required() },
+        { name: 'id', title: 'Bahasa Indonesia', type: 'string' },
+        { name: 'th', title: 'ภาษาไทย', type: 'string' },
+        { name: 'vi', title: 'Tiếng Việt', type: 'string' },
+        { name: 'ar', title: 'العربية', type: 'string' },
       ],
     }),
     defineField({
@@ -27,11 +31,15 @@ export default defineType({
     }),
     defineField({
       name: 'description',
-      title: '分类描述',
+      title: '分类描述 (多语言)',
       type: 'object',
       fields: [
         { name: 'zh', title: '中文', type: 'text', rows: 3 },
         { name: 'en', title: 'English', type: 'text', rows: 3 },
+        { name: 'id', title: 'Bahasa Indonesia', type: 'text', rows: 3 },
+        { name: 'th', title: 'ภาษาไทย', type: 'text', rows: 3 },
+        { name: 'vi', title: 'Tiếng Việt', type: 'text', rows: 3 },
+        { name: 'ar', title: 'العربية', type: 'text', rows: 3 },
       ],
     }),
     defineField({

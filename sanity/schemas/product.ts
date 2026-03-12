@@ -6,14 +6,18 @@ export default defineType({
   title: '产品',
   type: 'document',
   fields: [
-    // 基础信息 - 中英文
+    // 基础信息 - 6语言支持
     defineField({
       name: 'name',
-      title: '产品名称 (中文)',
+      title: '产品名称 (多语言)',
       type: 'object',
       fields: [
-        { name: 'zh', title: '中文', type: 'string', validation: (Rule: any) => Rule.required() },
-        { name: 'en', title: 'English', type: 'string', validation: (Rule: any) => Rule.required() },
+        { name: 'zh', title: '中文 (必填)', type: 'string', validation: (Rule: any) => Rule.required() },
+        { name: 'en', title: 'English (必填)', type: 'string', validation: (Rule: any) => Rule.required() },
+        { name: 'id', title: 'Bahasa Indonesia', type: 'string' },
+        { name: 'th', title: 'ภาษาไทย', type: 'string' },
+        { name: 'vi', title: 'Tiếng Việt', type: 'string' },
+        { name: 'ar', title: 'العربية', type: 'string' },
       ],
     }),
     defineField({
@@ -40,14 +44,18 @@ export default defineType({
       validation: (Rule: any) => Rule.required(),
     }),
     
-    // 产品描述 - 中英文
+    // 产品描述 - 6语言支持
     defineField({
       name: 'description',
-      title: '产品描述',
+      title: '产品描述 (多语言)',
       type: 'object',
       fields: [
         { name: 'zh', title: '中文', type: 'text', rows: 3 },
         { name: 'en', title: 'English', type: 'text', rows: 3 },
+        { name: 'id', title: 'Bahasa Indonesia', type: 'text', rows: 3 },
+        { name: 'th', title: 'ภาษาไทย', type: 'text', rows: 3 },
+        { name: 'vi', title: 'Tiếng Việt', type: 'text', rows: 3 },
+        { name: 'ar', title: 'العربية', type: 'text', rows: 3 },
       ],
     }),
     defineField({
@@ -57,6 +65,10 @@ export default defineType({
       fields: [
         { name: 'zh', title: '中文', type: 'string' },
         { name: 'en', title: 'English', type: 'string' },
+        { name: 'id', title: 'Bahasa Indonesia', type: 'string' },
+        { name: 'th', title: 'ภาษาไทย', type: 'string' },
+        { name: 'vi', title: 'Tiếng Việt', type: 'string' },
+        { name: 'ar', title: 'العربية', type: 'string' },
       ],
     }),
     
@@ -85,45 +97,33 @@ export default defineType({
       of: [{ type: 'reference', to: [{ type: 'productSpec' }] }],
     }),
     
-    // 产品特性 - 中英文
+    // 产品特性 - 6语言支持
     defineField({
       name: 'features',
-      title: '产品特性',
+      title: '产品特性 (多语言)',
       type: 'object',
       fields: [
-        {
-          name: 'zh',
-          title: '中文',
-          type: 'array',
-          of: [{ type: 'string' }],
-        },
-        {
-          name: 'en',
-          title: 'English',
-          type: 'array',
-          of: [{ type: 'string' }],
-        },
+        { name: 'zh', title: '中文', type: 'array', of: [{ type: 'string' }] },
+        { name: 'en', title: 'English', type: 'array', of: [{ type: 'string' }] },
+        { name: 'id', title: 'Bahasa Indonesia', type: 'array', of: [{ type: 'string' }] },
+        { name: 'th', title: 'ภาษาไทย', type: 'array', of: [{ type: 'string' }] },
+        { name: 'vi', title: 'Tiếng Việt', type: 'array', of: [{ type: 'string' }] },
+        { name: 'ar', title: 'العربية', type: 'array', of: [{ type: 'string' }] },
       ],
     }),
     
-    // 应用场景 - 中英文
+    // 应用场景 - 6语言支持
     defineField({
       name: 'applications',
-      title: '应用场景',
+      title: '应用场景 (多语言)',
       type: 'object',
       fields: [
-        {
-          name: 'zh',
-          title: '中文',
-          type: 'array',
-          of: [{ type: 'string' }],
-        },
-        {
-          name: 'en',
-          title: 'English',
-          type: 'array',
-          of: [{ type: 'string' }],
-        },
+        { name: 'zh', title: '中文', type: 'array', of: [{ type: 'string' }] },
+        { name: 'en', title: 'English', type: 'array', of: [{ type: 'string' }] },
+        { name: 'id', title: 'Bahasa Indonesia', type: 'array', of: [{ type: 'string' }] },
+        { name: 'th', title: 'ภาษาไทย', type: 'array', of: [{ type: 'string' }] },
+        { name: 'vi', title: 'Tiếng Việt', type: 'array', of: [{ type: 'string' }] },
+        { name: 'ar', title: 'العربية', type: 'array', of: [{ type: 'string' }] },
       ],
     }),
     
@@ -153,20 +153,28 @@ export default defineType({
       fields: [
         {
           name: 'metaTitle',
-          title: 'Meta 标题',
+          title: 'Meta 标题 (多语言)',
           type: 'object',
           fields: [
             { name: 'zh', title: '中文', type: 'string' },
             { name: 'en', title: 'English', type: 'string' },
+            { name: 'id', title: 'Bahasa Indonesia', type: 'string' },
+            { name: 'th', title: 'ภาษาไทย', type: 'string' },
+            { name: 'vi', title: 'Tiếng Việt', type: 'string' },
+            { name: 'ar', title: 'العربية', type: 'string' },
           ],
         },
         {
           name: 'metaDescription',
-          title: 'Meta 描述',
+          title: 'Meta 描述 (多语言)',
           type: 'object',
           fields: [
             { name: 'zh', title: '中文', type: 'text', rows: 2 },
             { name: 'en', title: 'English', type: 'text', rows: 2 },
+            { name: 'id', title: 'Bahasa Indonesia', type: 'text', rows: 2 },
+            { name: 'th', title: 'ภาษาไทย', type: 'text', rows: 2 },
+            { name: 'vi', title: 'Tiếng Việt', type: 'text', rows: 2 },
+            { name: 'ar', title: 'العربية', type: 'text', rows: 2 },
           ],
         },
         {
