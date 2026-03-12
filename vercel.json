@@ -29,12 +29,5 @@
       "source": "/sitemap.xml",
       "destination": "/api/sitemap"
     }
-  ],
-  "redirects": [
-    {
-      "source": "/",
-      "destination": "/en",
-      "permanent": true
-    }
   ]
 }
