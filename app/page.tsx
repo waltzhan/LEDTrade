@@ -1,5 +1,6 @@
 import { redirect } from 'next/navigation';
 import { headers } from 'next/headers';
+import { unstable_noStore } from 'next/cache';
 import { locales, defaultLocale } from '@/lib/i18n/config';
 
 // 浏览器语言到网站语言的映射
@@ -45,9 +46,17 @@ function getBrowserLocale(acceptLanguage: string | null): string {
 }
 
 export default async function RootPage() {
+  // 强制动态渲染，确保每次请求都执行
+  unstable_noStore();
+  
   const headersList = await headers();
   const acceptLanguage = headersList.get('accept-language');
+  
+  console.log('[RootPage] Accept-Language:', acceptLanguage);
+  
   const browserLocale = getBrowserLocale(acceptLanguage);
+  
+  console.log('[RootPage] Browser locale:', browserLocale);
   
   redirect(`/${browserLocale}`);
 }
