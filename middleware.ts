@@ -77,5 +77,10 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/((?!_next/static|_next/image|favicon\.ico|robots\.txt|sitemap\.xml).*)'],
+  matcher: [
+    // 匹配根路径
+    '/',
+    // 匹配所有非语言前缀、非静态资源路径
+    '/((?!_next/|api/|static/|favicon\.ico|robots\.txt|sitemap\.xml|.*\.).*)',
+  ],
 };
