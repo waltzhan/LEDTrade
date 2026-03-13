@@ -1,8 +1,9 @@
 import { createClient } from '@sanity/client';
 import { createImageUrlBuilder } from '@sanity/image-url';
 
-const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || 'nckyp28c';
-const dataset = process.env.NEXT_PUBLIC_SANITY_DATASET || 'production';
+// 硬编码 Sanity 配置，避免构建时环境变量问题
+const projectId = 'nckyp28c';
+const dataset = 'production';
 
 export const sanityClient = createClient({
   projectId,
