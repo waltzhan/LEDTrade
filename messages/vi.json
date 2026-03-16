@@ -11,7 +11,8 @@
     "support": "Hỗ trợ",
     "contact": "Liên hệ",
     "inquiry": "Yêu cầu báo giá",
-    "language": "Ngôn ngữ"
+    "language": "Ngôn ngữ",
+    "news": "Tin tức"
   },
   "hero": {
     "title": "Tạo dựng cuộc sống khỏe mạnh và thông minh",
@@ -163,6 +164,22 @@
       "team": "Hiểu Nhau · Vui Vẻ · Đoàn Kết · Cùng Thắng",
       "esg": "ESG & Phát Triển Bền Vững",
       "esgDesc": "Trở thành nhà lãnh đạo ngành trong phát triển bền vững, thúc đẩy bảo vệ môi trường và phát triển xanh carbon thấp thông qua quản lý chuỗi cung ứng xanh"
+    }
+  },
+  "news": {
+    "title": "Tin tức",
+    "subtitle": "Cập nhật thông tin mới nhất về xu hướng ngành LED, bài viết kỹ thuật và trường hợp ứng dụng",
+    "allCategories": "Tất cả",
+    "readMore": "Đọc thêm",
+    "minRead": "phút đọc",
+    "noArticles": "Không có bài viết",
+    "noContent": "Không có nội dung",
+    "source": "Nguồn",
+    "relatedArticles": "Bài viết liên quan",
+    "categories": {
+      "industry": "Tin ngành",
+      "technical": "Bài viết kỹ thuật",
+      "application": "Trường hợp ứng dụng"
     }
   },
   "common": {

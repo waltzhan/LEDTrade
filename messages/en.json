@@ -165,6 +165,22 @@
       "esgDesc": "Become an industry leader in sustainable development, promoting environmental protection and green low-carbon development through green supply chain management"
     }
   },
+  "news": {
+    "title": "News Center",
+    "subtitle": "Stay updated with the latest LED industry trends, technical articles, and application cases",
+    "allCategories": "All",
+    "readMore": "Read More",
+    "minRead": "min read",
+    "noArticles": "No articles found",
+    "noContent": "No content available",
+    "source": "Source",
+    "relatedArticles": "Related Articles",
+    "categories": {
+      "industry": "Industry News",
+      "technical": "Technical Articles",
+      "application": "Application Cases"
+    }
+  },
   "common": {
     "loading": "Loading...",
     "error": "An error occurred",

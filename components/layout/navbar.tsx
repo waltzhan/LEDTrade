@@ -17,6 +17,7 @@ interface NavbarProps {
       contact: string;
       inquiry: string;
       language: string;
+      news: string;
     };
     common: {
       language: string;
@@ -60,7 +61,7 @@ export default function Navbar({ locale, messages }: NavbarProps) {
   const navItems = [
     { href: '/', label: messages.navigation.home },
     { href: '/products', label: messages.navigation.products },
-    { href: '/solutions', label: messages.navigation.solutions },
+    { href: '/news', label: messages.navigation.news },
     { href: '/about', label: messages.navigation.about },
     { href: '/contact', label: messages.navigation.contact },
   ];

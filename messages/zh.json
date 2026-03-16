@@ -11,7 +11,8 @@
     "support": "技术支持",
     "contact": "联系我们",
     "inquiry": "获取报价",
-    "language": "语言"
+    "language": "语言",
+    "news": "资讯中心"
   },
   "hero": {
     "title": "创造健康智慧生活",
@@ -163,6 +164,22 @@
       "team": "知己·悦人·齐心·共赢",
       "esg": "ESG与可持续发展",
       "esgDesc": "成为行业可持续发展的领导者，以绿色供应链管理推动环保和绿色低碳发展"
+    }
+  },
+  "news": {
+    "title": "资讯中心",
+    "subtitle": "了解LED行业最新动态、技术文章和产品应用案例",
+    "allCategories": "全部",
+    "readMore": "阅读更多",
+    "minRead": "分钟阅读",
+    "noArticles": "暂无文章",
+    "noContent": "暂无内容",
+    "source": "文章来源",
+    "relatedArticles": "相关文章",
+    "categories": {
+      "industry": "行业动态",
+      "technical": "技术文章",
+      "application": "应用案例"
     }
   },
   "common": {

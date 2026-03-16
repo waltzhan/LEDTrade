@@ -11,7 +11,8 @@
     "support": "Dukungan",
     "contact": "Kontak",
     "inquiry": "Minta Penawaran",
-    "language": "Bahasa"
+    "language": "Bahasa",
+    "news": "Pusat Berita"
   },
   "hero": {
     "title": "Menciptakan Hidup Sehat dan Cerdas",
@@ -163,6 +164,22 @@
       "team": "Memahami · Menyenangkan · Bersatu · Menang Bersama",
       "esg": "ESG & Pengembangan Berkelanjutan",
       "esgDesc": "Menjadi pemimpin industri dalam pengembangan berkelanjutan, mendorong perlindungan lingkungan dan pengembangan hijau rendah karbon melalui manajemen rantai pasok hijau"
+    }
+  },
+  "news": {
+    "title": "Pusat Berita",
+    "subtitle": "Dapatkan informasi terbaru tentang tren industri LED, artikel teknis, dan kasus aplikasi",
+    "allCategories": "Semua",
+    "readMore": "Baca Selengkapnya",
+    "minRead": "menit baca",
+    "noArticles": "Tidak ada artikel",
+    "noContent": "Konten tidak tersedia",
+    "source": "Sumber",
+    "relatedArticles": "Artikel Terkait",
+    "categories": {
+      "industry": "Berita Industri",
+      "technical": "Artikel Teknis",
+      "application": "Kasus Aplikasi"
     }
   },
   "common": {

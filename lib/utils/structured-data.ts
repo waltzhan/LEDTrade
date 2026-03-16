@@ -340,3 +340,43 @@ export function generateVideoSchema(
     },
   };
 }
+
+/**
+ * 生成文章Schema - 资讯页面SEO优化
+ */
+export function generateArticleSchema(article: any, locale: string = 'zh') {
+  const title = article.title?.[locale] || article.title?.zh || article.title?.en;
+  const description = article.excerpt?.[locale] || article.excerpt?.zh || article.excerpt?.en;
+  const imageUrl = article.coverImage ? `https://ledcoreco.com${article.coverImage}` : 'https://ledcoreco.com/og-image.jpg';
+  
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: title,
+    description: description,
+    image: imageUrl,
+    datePublished: article.publishedAt,
+    dateModified: article._updatedAt || article.publishedAt,
+    author: {
+      '@type': 'Organization',
+      name: article.author?.name || 'GOPRO LED',
+    },
+    publisher: {
+      '@type': 'Organization',
+      name: 'GOPRO LED',
+      logo: {
+        '@type': 'ImageObject',
+        url: 'https://ledcoreco.com/logo.png',
+        width: 200,
+        height: 60,
+      },
+    },
+    mainEntityOfPage: {
+      '@type': 'WebPage',
+      '@id': `https://ledcoreco.com/${locale}/news/${article.slug.current}`,
+    },
+    inLanguage: locale,
+    keywords: article.tags?.join(', ') || '',
+    articleSection: article.category?.title?.[locale] || article.category?.title?.zh,
+  };
+}

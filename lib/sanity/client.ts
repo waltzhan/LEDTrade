@@ -12,6 +12,9 @@ export const sanityClient = createClient({
   useCdn: false
 });
 
+// 导出 client 供其他模块使用
+export const client = sanityClient;
+
 const builder = createImageUrlBuilder(sanityClient);
 
 export function urlFor(source: any) {
