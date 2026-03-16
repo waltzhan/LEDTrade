@@ -206,8 +206,10 @@ export default async function ProductDetailPage({
     '';
   const description = rawDescription ? cleanHtml(rawDescription) : '';
   const descriptionIsHtml = isHtml(description);
-  const features: string[] =
-    product.features?.[locale] || product.features?.en || product.features?.zh || [];
+  // 产品特性数据暂时禁用，因为 Sanity 中的数据不正确
+  // const features: string[] =
+  //   product.features?.[locale] || product.features?.en || product.features?.zh || [];
+  const features: string[] = [];
   const applications: string[] =
     product.applications?.[locale] || product.applications?.en || product.applications?.zh || [];
 
