@@ -2,6 +2,10 @@ import { NextResponse } from 'next/server';
 import { locales } from '@/lib/i18n/config';
 import { getAllProductSlugs, getCategories } from '@/lib/sanity/queries';
 
+// 标记为动态路由，避免构建时获取数据
+export const dynamic = 'force-dynamic';
+export const revalidate = 3600; // 每小时重新验证
+
 // 静态页面路径及优先级配置
 const staticPages = [
   { path: '', priority: 1.0, changefreq: 'daily' },
@@ -13,11 +17,19 @@ const staticPages = [
 export async function GET() {
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://ledcoreco.com';
   
-  // 从 Sanity 获取动态数据
-  const [productSlugs, categories] = await Promise.all([
-    getAllProductSlugs(),
-    getCategories(),
-  ]);
+  let productSlugs: Array<{ slug: string }> = [];
+  let categories: Array<{ slug?: { current?: string } }> = [];
+  
+  // 尝试从 Sanity 获取动态数据，失败则使用空数组
+  try {
+    [productSlugs, categories] = await Promise.all([
+      getAllProductSlugs(),
+      getCategories(),
+    ]);
+  } catch (error) {
+    console.error('Failed to fetch data for sitemap:', error);
+    // 使用空数组继续生成基础 sitemap
+  }
   
   const urls: Array<{
     loc: string;
