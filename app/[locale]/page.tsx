@@ -35,18 +35,51 @@ function getMessages(locale: string) {
   return (key: string) => getNestedValue(messages, key);
 }
 
-// GEO优化：获取FAQ内容
+// GEO优化：获取FAQ内容 - 扩展长尾关键词覆盖
 function getFAQs(locale: string) {
   const faqs: Record<string, Array<{ question: string; answer: string }>> = {
     en: [
       { question: 'What types of LEDs does GOPRO manufacture?', answer: 'GOPRO manufactures IR LEDs, Visible Light LEDs, and UV LEDs for various applications including consumer electronics, lighting, and industrial use.' },
       { question: 'Which markets does GOPRO serve?', answer: 'We primarily serve Southeast Asia (Malaysia, Indonesia, Thailand, Vietnam) and Middle East markets.' },
       { question: 'What is the minimum order quantity?', answer: 'We accept orders starting from 1,000 pieces, with competitive pricing for bulk orders over 10,000 pieces.' },
+      // SEO长尾关键词扩展
+      { question: 'What is the difference between IR LED and visible LED?', answer: 'IR LEDs emit infrared light (invisible to human eye) used for sensing and communication, while visible LEDs emit light in the visible spectrum for illumination and display purposes.' },
+      { question: 'How to choose the right LED for my application?', answer: 'Consider factors like wavelength (for IR), color temperature (for visible), power requirements, viewing angle, and operating environment. Contact our sales team for technical guidance.' },
+      { question: 'What certifications do GOPRO LED products have?', answer: 'Our products are certified with ISO 9001, ISO 14001, RoHS, and CE, ensuring quality and compliance with international standards.' },
+      { question: 'Can you provide custom LED solutions?', answer: 'Yes, we offer OEM/ODM services with custom specifications including wavelength, power, package type, and special requirements for your specific application.' },
+      { question: 'What is the typical lead time for LED orders?', answer: 'Standard products: 2-3 weeks. Custom products: 4-6 weeks depending on specifications. Rush orders available upon request.' },
     ],
     zh: [
       { question: '光莆生产哪些类型的LED？', answer: '光莆生产红外LED、可见光LED和紫外LED，应用于消费电子、照明和工业等领域。' },
       { question: '光莆服务哪些市场？', answer: '我们主要服务东南亚（马来西亚、印尼、泰国、越南）和中东市场。' },
       { question: '最小订单量是多少？', answer: '我们接受1000件起订，10000件以上批量订单可享受优惠价格。' },
+      // SEO长尾关键词扩展
+      { question: '红外LED和可见光LED有什么区别？', answer: '红外LED发射人眼不可见的红外光，用于传感和通信；可见光LED发射可见光谱的光，用于照明和显示。' },
+      { question: '如何为我的应用选择合适的LED？', answer: '需要考虑波长（红外）、色温（可见光）、功率需求、视角和工作环境等因素。请联系我们的销售团队获取技术指导。' },
+      { question: '光莆LED产品有哪些认证？', answer: '我们的产品通过ISO 9001、ISO 14001、RoHS和CE认证，确保质量符合国际标准。' },
+      { question: '可以提供定制LED解决方案吗？', answer: '是的，我们提供OEM/ODM服务，可根据您的具体应用需求定制波长、功率、封装类型等特殊规格。' },
+      { question: 'LED订单的典型交货期是多久？', answer: '标准产品2-3周，定制产品4-6周（视规格而定）。紧急订单可协商加急处理。' },
+    ],
+    id: [
+      { question: 'LED apa saja yang diproduksi GOPRO?', answer: 'GOPRO memproduksi LED IR, LED Cahaya Terlihat, dan LED UV untuk berbagai aplikasi termasuk elektronik konsumen, pencahayaan, dan industri.' },
+      { question: 'Pasar mana yang dilayani GOPRO?', answer: 'Kami terutama melayani pasar Asia Tenggara (Malaysia, Indonesia, Thailand, Vietnam) dan Timur Tengah.' },
+      { question: 'Berapa jumlah pesanan minimum?', answer: 'Kami menerima pesanan mulai dari 1.000 pcs, dengan harga kompetitif untuk pesanan massal di atas 10.000 pcs.' },
+      { question: 'Apakah bisa pesan LED custom?', answer: 'Ya, kami melayani OEM/ODM dengan spesifikasi kustom sesuai kebutuhan aplikasi Anda.' },
+    ],
+    th: [
+      { question: 'GOPRO ผลิต LED ประเภทใดบ้าง?', answer: 'GOPRO ผลิต LED อินฟราเรด LED แสงที่มองเห็นได้ และ LED UV สำหรับแอพพลิเคชั่นต่างๆ' },
+      { question: 'GOPRO ให้บริการตลาดใดบ้าง?', answer: 'เราให้บริการหลักในเอเชียตะวันออกเฉียงใต้และตะวันออกกลาง' },
+      { question: 'จำนวนสั่งซื้อขั้นต่ำเท่าไหร่?', answer: 'เรารับออเดอร์ตั้งแต่ 1,000 ชิ้น ราคาพิเศษสำหรับออเดอร์เกิน 10,000 ชิ้น' },
+    ],
+    vi: [
+      { question: 'GOPRO sản xuất loại LED nào?', answer: 'GOPRO sản xuất LED hồng ngoại, LED ánh sáng nhìn thấy và LED UV cho nhiều ứng dụng khác nhau.' },
+      { question: 'GOPRO phục vụ thị trường nào?', answer: 'Chúng tôi chủ yếu phục vụ thị trường Đông Nam Á và Trung Đông.' },
+      { question: 'Số lượng đặt hàng tối thiểu là bao nhiêu?', answer: 'Chúng tôi chấp nhận đơn hàng từ 1.000 chiếc, giá cả cạnh tranh cho đơn hàng số lượng lớn trên 10.000 chiếc.' },
+    ],
+    ar: [
+      { question: 'ما أنواع LED التي تصنعها GOPRO؟', answer: 'تصنع GOPRO LED الأشعة تحت الحمراء وLED الضوء المرئي وLED UV لتطبيقات متنوعة.' },
+      { question: 'ما الأسواق التي تخدمها GOPRO؟', answer: 'نحن نخدم بشكل أساسي أسواق جنوب شرق آسيا والشرق الأوسط.' },
+      { question: 'ما هو الحد الأدنى لكمية الطلب؟', answer: 'نقبل الطلبات ابتداءً من 1000 قطعة، بأسعار تنافسية للطلبات الكبيرة.' },
     ],
   };
   return faqs[locale] || faqs.en;
