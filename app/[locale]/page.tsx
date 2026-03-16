@@ -85,6 +85,9 @@ function getFAQs(locale: string) {
   return faqs[locale] || faqs.en;
 }
 
+// 标记为动态渲染，避免构建时获取数据
+export const dynamic = 'force-dynamic';
+
 export default async function HomePage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
   const t = getMessages(locale);
@@ -102,7 +105,14 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
     'static-uv-sterilization-module-gp-xs17xx-series',
     'flexible-contact-sensing-module',
   ];
-  const featuredProducts = await getProductsBySlugList(FEATURED_SLUGS);
+  
+  // 尝试获取产品数据，失败则使用空数组
+  let featuredProducts: any[] = [];
+  try {
+    featuredProducts = await getProductsBySlugList(FEATURED_SLUGS);
+  } catch (error) {
+    console.error('Failed to fetch featured products:', error);
+  }
   // 按 FEATURED_SLUGS 顺序排列，方便索引
   const productMap: Record<string, any> = {};
   for (const p of featuredProducts) {
