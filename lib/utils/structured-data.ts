@@ -239,3 +239,104 @@ export function generateItemListSchema(products: ProductData[], locale: string) 
     }))
   };
 }
+
+/**
+ * 生成本地业务Schema - 本地SEO优化
+ * 针对Google Business Profile和地图搜索
+ */
+export function generateLocalBusinessSchema() {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'LocalBusiness',
+    '@id': 'https://ledcoreco.com/#localbusiness',
+    name: 'Xiamen Guangpu Electronics Co., Ltd.',
+    alternateName: ['GOPRO LED', '光莆电子'],
+    description: 'Professional LED manufacturer specializing in IR LEDs, Visible Light LEDs, and UV LEDs since 1994.',
+    url: 'https://ledcoreco.com',
+    telephone: '+86-592-12345678',
+    email: 'sales@ledcoreco.com',
+    foundingDate: '1994',
+    // 营业时间
+    openingHoursSpecification: [
+      {
+        '@type': 'OpeningHoursSpecification',
+        dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+        opens: '09:00',
+        closes: '18:00',
+      },
+    ],
+    // 地址信息
+    address: {
+      '@type': 'PostalAddress',
+      streetAddress: 'No.1800-1812 Min\'an Avenue, Xiang\'an Torch High-tech Zone',
+      addressLocality: 'Xiamen',
+      addressRegion: 'Fujian',
+      postalCode: '361021',
+      addressCountry: 'CN',
+    },
+    // 地理坐标（厦门翔安火炬高新区）
+    geo: {
+      '@type': 'GeoCoordinates',
+      latitude: '24.6180',
+      longitude: '118.2390',
+    },
+    // 服务区域（目标市场）
+    areaServed: [
+      { '@type': 'Country', name: 'Malaysia' },
+      { '@type': 'Country', name: 'Indonesia' },
+      { '@type': 'Country', name: 'Thailand' },
+      { '@type': 'Country', name: 'Vietnam' },
+      { '@type': 'Country', name: 'Singapore' },
+      { '@type': 'Country', name: 'Philippines' },
+      { '@type': 'Country', name: 'UAE' },
+      { '@type': 'Country', name: 'Saudi Arabia' },
+    ],
+    // 业务类别
+    '@graph': [
+      {
+        '@type': 'Organization',
+        name: 'GOPRO LED',
+        sameAs: [
+          'https://www.linkedin.com/company/gopro-led',
+        ],
+      },
+    ],
+    // 价格范围
+    priceRange: '$$$',
+    // 支付方式
+    paymentAccepted: ['T/T', 'L/C', 'Western Union'],
+    // 货币
+    currenciesAccepted: 'USD, CNY',
+  };
+}
+
+/**
+ * 生成视频Schema - 视频SEO优化
+ */
+export function generateVideoSchema(
+  name: string,
+  description: string,
+  thumbnailUrl: string,
+  uploadDate: string,
+  duration: string
+) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'VideoObject',
+    name,
+    description,
+    thumbnailUrl,
+    uploadDate,
+    duration,
+    publisher: {
+      '@type': 'Organization',
+      name: 'GOPRO LED',
+      logo: {
+        '@type': 'ImageObject',
+        url: 'https://ledcoreco.com/logo.png',
+        width: 200,
+        height: 60,
+      },
+    },
+  };
+}

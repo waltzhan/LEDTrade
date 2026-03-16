@@ -31,6 +31,8 @@ export async function generateStaticParams() {
   return params;
 }
 
+const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://ledcoreco.com';
+
 export async function generateMetadata({
   params,
 }: {
@@ -49,10 +51,68 @@ export async function generateMetadata({
     product.shortDescription?.[locale] ||
     product.shortDescription?.en ||
     '';
+  const title = product.seo?.metaTitle?.[locale] || `${name} | GOPRO LED`;
+  const imageUrl = product.mainImage ? urlForImage(product.mainImage) : `${baseUrl}/og-image.jpg`;
+
+  // 为每种语言生成 alternate 链接
+  const alternateLanguages: Record<string, string> = {};
+  for (const loc of locales) {
+    alternateLanguages[loc] = `${baseUrl}/${loc}/products/${slug}`;
+  }
 
   return {
-    title: product.seo?.metaTitle?.[locale] || `${name} | GOPRO LED`,
+    title,
     description,
+    alternates: {
+      canonical: `${baseUrl}/${locale}/products/${slug}`,
+      languages: alternateLanguages,
+    },
+    // Open Graph - 社交媒体优化
+    openGraph: {
+      title,
+      description,
+      url: `${baseUrl}/${locale}/products/${slug}`,
+      siteName: locale === 'zh' ? '光莆LED' : 'GOPRO LED',
+      locale: locale,
+      type: 'article',
+      images: [
+        {
+          url: imageUrl,
+          width: 1200,
+          height: 630,
+          alt: name,
+        },
+      ],
+    },
+    // Twitter Card
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+      images: [imageUrl],
+    },
+    // 关键词（用于 SEO）
+    keywords: [
+      name,
+      product.model,
+      'LED',
+      product.category?.name?.[locale] || 'LED',
+      locale === 'zh' ? '光莆' : 'GOPRO',
+      'manufacturer',
+      'wholesale',
+    ].filter(Boolean),
+    // 机器人指令
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: {
+        index: true,
+        follow: true,
+        'max-video-preview': -1,
+        'max-image-preview': 'large',
+        'max-snippet': -1,
+      },
+    },
   };
 }
 

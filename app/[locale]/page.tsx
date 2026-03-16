@@ -3,7 +3,8 @@ import Image from 'next/image';
 import { 
   generateOrganizationSchema, 
   generateWebsiteSchema, 
-  generateFAQSchema 
+  generateFAQSchema,
+  generateLocalBusinessSchema
 } from '@/lib/utils/structured-data';
 import { getProductsBySlugList } from '@/lib/sanity/queries';
 import { urlForImage } from '@/lib/sanity/client';
@@ -59,6 +60,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
   const organizationSchema = generateOrganizationSchema();
   const websiteSchema = generateWebsiteSchema(locale);
   const faqSchema = generateFAQSchema(getFAQs(locale));
+  const localBusinessSchema = generateLocalBusinessSchema();
 
   // 获取首页展示的4个代表产品图片
   const FEATURED_SLUGS = [
@@ -88,6 +90,10 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessSchema) }}
       />
       <main className="min-h-screen">
         {/* Hero Section */}
