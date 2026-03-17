@@ -5,6 +5,7 @@ import { NextRequest, NextResponse } from 'next/server';
 const INQUIRY_EMAIL = process.env.INQUIRY_EMAIL || 'sales@ledcoreco.com';
 
 // 延迟初始化 Resend 客户端（避免构建时缺少 API Key 错误）
+// 注意：发件人必须使用 Resend 验证过的域名或测试域名
 function getResendClient() {
   const apiKey = process.env.RESEND_API_KEY;
   if (!apiKey) {
