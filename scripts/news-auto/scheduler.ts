@@ -22,30 +22,38 @@ export async function getTodayArticleCount(): Promise<number> {
 /**
  * 检查当前是否在发布时间段内
  * Vercel Cron 运行在 UTC 时间，需要转换为北京时间（UTC+8）
+ * 
+ * 本地测试时设置 NEWS_BYPASS_TIME_CHECK=true 可绕过时间检查
  */
 export function isInPublishWindow(): boolean {
+  // 本地测试模式：绕过时间窗口检查
+  if (process.env.NEWS_BYPASS_TIME_CHECK === 'true') {
+    console.log('🧪 Test mode: bypassing time window check');
+    return true;
+  }
+
   const now = new Date();
   // 转换为北京时间（UTC+8）
   const beijingHour = (now.getUTCHours() + 8) % 24;
   const beijingMinute = now.getUTCMinutes();
   const currentTime = `${String(beijingHour).padStart(2, '0')}:${String(beijingMinute).padStart(2, '0')}`;
-  
+
   // 允许前后5分钟的误差窗口（Cron 执行可能有延迟）
   const timeWindowMinutes = 5;
-  
+
   for (const publishTime of NEWS_CONFIG.publish.publishTimes) {
     const [hour, minute] = publishTime.split(':').map(Number);
     const publishMinutes = hour * 60 + minute;
     const currentMinutes = beijingHour * 60 + beijingMinute;
     const diffMinutes = Math.abs(currentMinutes - publishMinutes);
-    
+
     // 如果在时间窗口内（考虑跨天情况）
     if (diffMinutes <= timeWindowMinutes || diffMinutes >= 24 * 60 - timeWindowMinutes) {
       console.log(`✅ Within publish window: ${publishTime} (current: ${currentTime} BJT)`);
       return true;
     }
   }
-  
+
   console.log(`⏰ Outside publish window (current: ${currentTime} BJT)`);
   return false;
 }
