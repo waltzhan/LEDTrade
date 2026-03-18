@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { sendEmail } from '@/lib/email/smtp';
+import { sendEmail } from '@/lib/email/smtp-mail';
 
 // 接收询盘邮件的目标邮箱
 const INQUIRY_EMAIL = process.env.INQUIRY_EMAIL || 'sales@ledcoreco.com';
