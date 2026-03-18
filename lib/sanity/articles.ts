@@ -31,7 +31,7 @@ export async function getArticles(
     }
   `;
   
-  return client.fetch(query);
+  return client.fetch(query, {}, { next: { revalidate: 300 } });
 }
 
 // 获取文章总数
@@ -42,7 +42,7 @@ export async function getArticlesCount(category?: string) {
     count(*[_type == "article" && status == "published" ${categoryFilter}])
   `;
   
-  return client.fetch(query);
+  return client.fetch(query, {}, { next: { revalidate: 300 } });
 }
 
 // 获取单篇文章
@@ -71,7 +71,7 @@ export async function getArticleBySlug(slug: string, locale: string = 'zh') {
     }
   `;
   
-  return client.fetch(query);
+  return client.fetch(query, {}, { next: { revalidate: 300 } });
 }
 
 // 获取相关文章
@@ -93,7 +93,7 @@ export async function getRelatedArticles(
     }
   `;
   
-  return client.fetch(query);
+  return client.fetch(query, {}, { next: { revalidate: 300 } });
 }
 
 // 获取推荐文章
@@ -113,7 +113,7 @@ export async function getFeaturedArticles(limit: number = 5) {
     }
   `;
   
-  return client.fetch(query);
+  return client.fetch(query, {}, { next: { revalidate: 300 } });
 }
 
 // 获取最新文章
@@ -133,7 +133,7 @@ export async function getLatestArticles(limit: number = 6) {
     }
   `;
   
-  return client.fetch(query);
+  return client.fetch(query, {}, { next: { revalidate: 300 } });
 }
 
 // 获取所有文章分类
@@ -147,7 +147,7 @@ export async function getArticleCategories() {
     }
   `;
   
-  return client.fetch(query);
+  return client.fetch(query, {}, { next: { revalidate: 3600 } });
 }
 
 // 获取单个分类
@@ -161,7 +161,7 @@ export async function getArticleCategoryBySlug(slug: string) {
     }
   `;
   
-  return client.fetch(query);
+  return client.fetch(query, {}, { next: { revalidate: 3600 } });
 }
 
 // 获取所有文章slug（用于静态生成）
@@ -172,7 +172,7 @@ export async function getAllArticleSlugs() {
     }
   `;
   
-  return client.fetch(query);
+  return client.fetch(query, {}, { next: { revalidate: 300 } });
 }
 
 // 获取所有分类slug（用于静态生成）
@@ -183,5 +183,5 @@ export async function getAllCategorySlugs() {
     }
   `;
   
-  return client.fetch(query);
+  return client.fetch(query, {}, { next: { revalidate: 3600 } });
 }
