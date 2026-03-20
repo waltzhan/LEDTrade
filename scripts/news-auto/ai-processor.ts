@@ -15,6 +15,10 @@ export interface ProcessedArticle {
   };
 }
 
+export interface ArticleWithImage extends ProcessedArticle {
+  generatedImageUrl?: string; // AI 生成的图片 URL
+}
+
 // 通义千问 API 调用（阿里云百炼大模型）
 export async function callQwen(prompt: string): Promise<string> {
   const apiKey = process.env.DASHSCOPE_API_KEY;
@@ -149,6 +153,119 @@ ${content.substring(0, 800)}
   return await callQwen(prompt);
 }
 
+// 生成 AI 配图（通义万相）
+export async function generateAIImage(prompt: string): Promise<string | null> {
+  const apiKey = process.env.DASHSCOPE_API_KEY;
+  
+  if (!apiKey) {
+    console.warn('⚠️ DASHSCOPE_API_KEY not found, skipping AI image generation');
+    return null;
+  }
+  
+  try {
+    console.log('🎨 Generating AI image...');
+    
+    // 第一步：提交任务
+    const submitResponse = await axios.post(
+      'https://dashscope-intl.aliyuncs.com/api/v1/services/aigc/text-generation/generation',
+      {
+        model: 'wanx-v1',
+        input: {
+          prompt: prompt,
+        },
+        parameters: {
+          style: '<auto>',
+          size: '1024*768',
+          n: 1,
+        },
+      },
+      {
+        headers: {
+          'Authorization': `Bearer ${apiKey}`,
+          'Content-Type': 'application/json',
+          'X-DashScope-Async': 'enable', // 异步任务
+        },
+        timeout: 30000,
+      }
+    );
+    
+    const taskId = submitResponse.data.output?.task_id;
+    if (!taskId) {
+      throw new Error('Failed to get task_id from Wanxiang API');
+    }
+    
+    console.log(`  Task ID: ${taskId}`);
+    
+    // 第二步：轮询任务状态（最长等待 60 秒）
+    let imageUrl: string | null = null;
+    const maxAttempts = 30; // 30 * 2s = 60s
+    
+    for (let attempt = 0; attempt < maxAttempts; attempt++) {
+      await new Promise(resolve => setTimeout(resolve, 2000)); // 等待 2 秒
+      
+      const statusResponse = await axios.get(
+        `https://dashscope-intl.aliyuncs.com/api/v1/tasks/${taskId}`,
+        {
+          headers: {
+            'Authorization': `Bearer ${apiKey}`,
+          },
+          timeout: 10000,
+        }
+      );
+      
+      const taskStatus = statusResponse.data.output?.task_status;
+      
+      if (taskStatus === 'SUCCEEDED') {
+        imageUrl = statusResponse.data.output?.results?.[0]?.url;
+        console.log('  ✓ Image generated successfully');
+        break;
+      } else if (taskStatus === 'FAILED') {
+        throw new Error(`Image generation failed: ${statusResponse.data.output?.message || 'Unknown error'}`);
+      }
+      
+      console.log(`  Waiting for image... (${attempt + 1}/${maxAttempts})`);
+    }
+    
+    return imageUrl;
+  } catch (error) {
+    console.error('✗ AI image generation error:', error);
+    return null;
+  }
+}
+
+// 根据文章内容生成图像 prompt
+async function generateImagePrompt(article: ProcessedArticle): Promise<string> {
+  const zhContent = article.content.zh || '';
+  const zhTitle = article.title.zh || '';
+  
+  const prompt = `
+请为以下 LED 行业文章生成一个专业的英文图像描述 prompt：
+
+标题：${zhTitle}
+内容摘要：${zhContent.substring(0, 300)}...
+
+要求：
+1. 用英文描述，简洁清晰（50-100 词）
+2. 突出 LED 技术、产品或应用场景
+3. 适合生成专业、现代的科技风格图片
+4. 包含关键视觉元素：产品类型、颜色、光线效果、应用环境等
+5. 避免抽象概念，聚焦具体可视化的物体
+
+示例格式："Professional LED display technology, modern manufacturing facility, blue and white lighting, high-tech atmosphere, clean room environment, detailed product showcase"
+
+请直接输出英文 prompt。
+`;
+
+  try {
+    const imagePrompt = await callQwen(prompt);
+    return imagePrompt.trim();
+  } catch (error) {
+    console.error('Failed to generate image prompt:', error);
+    // fallback：使用简化的默认 prompt
+    return `Professional LED technology and lighting products, modern industrial design, high quality commercial photography style`;
+  }
+}
+
 // 主处理函数
 export async function processArticle(article: RawArticle): Promise<ProcessedArticle> {
   console.log(`🤖 Processing article: ${article.title}`);
@@ -189,18 +306,18 @@ ${zhContent.substring(0, 300)}
     }
   }
   
-  // 4. 提取英文关键词（LED行业术语通用英文）
+  // 4. 提取英文关键词（LED 行业术语通用英文）
   const keywords = await extractKeywords(zhContent);
   console.log('  ✓ Keywords extracted:', keywords);
-  
-  // 5. 生成SEO信息
+    
+  // 5. 生成 SEO 信息
   const seo = {
     metaTitle: title,
     metaDescription: excerpt,
     keywords: keywords,
   };
-  
-  return {
+    
+  const result: ProcessedArticle = {
     title,
     excerpt,
     content,
@@ -208,6 +325,32 @@ ${zhContent.substring(0, 300)}
     category: article.category,
     seo,
   };
+    
+  // 6. 生成 AI 配图（总是生成高质量配图，覆盖原图）
+  console.log('\n🎨 [AI 生图] 开始生成专业配图...');
+  if (article.imageUrl) {
+    console.log(`   ℹ️ 原文有图片：${article.imageUrl.substring(0, 80)}...`);
+  } else {
+    console.log('   ℹ️ 原文无图片，必须生成 AI 图');
+  }
+  
+  const imagePrompt = await generateImagePrompt(result);
+  console.log(`   📝 Prompt: ${imagePrompt.substring(0, 100)}...`);
+    
+  const generatedImageUrl = await generateAIImage(imagePrompt);
+  if (generatedImageUrl) {
+    console.log(`   ✅ [AI 生图] 成功：${generatedImageUrl}`);
+    (result as ArticleWithImage).generatedImageUrl = generatedImageUrl;
+  } else {
+    // Fallback: 如果没有生成 AI 图且原图也没有，记录警告
+    if (!article.imageUrl) {
+      console.warn('   ⚠️ [AI 生图] 失败且无原图可用！');
+    } else {
+      console.log('   ℹ️ [AI 生图] 失败，使用原图');
+    }
+  }
+    
+  return result;
 }
 
 // 批量处理

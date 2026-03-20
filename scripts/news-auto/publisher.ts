@@ -1,5 +1,5 @@
 import { client } from '../../lib/sanity/client';
-import type { ProcessedArticle } from './ai-processor';
+import type { ProcessedArticle, ArticleWithImage } from './ai-processor';
 
 // 生成 slug
 function generateSlug(title: string): string {
@@ -10,11 +10,28 @@ function generateSlug(title: string): string {
     .substring(0, 50);
 }
 
-// 检查文章是否已存在
-async function checkDuplicate(title: string): Promise<boolean> {
-  const query = `*[_type == "article" && title.zh == "${title}"][0]`;
-  const existing = await client.fetch(query);
-  return !!existing;
+// 检查文章是否已存在（基于中文标题或原始 URL）
+async function checkDuplicate(title: string, sourceUrl?: string): Promise<boolean> {
+  // 1. 先检查原始 URL 是否已存在（最准确）
+  if (sourceUrl) {
+    const urlQuery = `*[_type == "article" && source.url == "${sourceUrl}"][0]`;
+    const existingByUrl = await client.fetch(urlQuery);
+    if (existingByUrl) {
+      console.log(`  ⚠️ [重复检测] URL 已存在：${sourceUrl}`);
+      return true;
+    }
+  }
+  
+  // 2. 再检查中文标题是否重复
+  const titleQuery = `*[_type == "article" && title.zh == "${title}"][0]`;
+  const existingByTitle = await client.fetch(titleQuery);
+  if (existingByTitle) {
+    console.log(`  ⚠️ [重复检测] 标题已存在：${title}`);
+    return true;
+  }
+  
+  console.log(`  ✓ [重复检测] 通过（非重复文章）`);
+  return false;
 }
 
 // 获取分类 ID
@@ -62,8 +79,8 @@ export async function publishArticle(
   imageUrl?: string
 ): Promise<boolean> {
   try {
-    // 检查重复
-    const isDuplicate = await checkDuplicate(processed.title.zh);
+    // 检查重复（优先使用 URL 检查）
+    const isDuplicate = await checkDuplicate(processed.title.zh, sourceUrl);
     if (isDuplicate) {
       console.log(`  ⚠️ Article already exists: ${processed.title.zh}`);
       return false;
@@ -72,14 +89,16 @@ export async function publishArticle(
     // 获取分类 ID
     const categoryId = await getCategoryId(processed.category);
     if (!categoryId) {
-      console.error(`  ✗ Category not found: ${processed.category}`);
+      console.error(`  ✗ [发布失败] 分类不存在：${processed.category}`);
+      console.error(`     请检查 Sanity 中是否有此分类`);
       return false;
     }
+    console.log(`  ✓ [分类检查] 通过：${processed.category} (ID: ${categoryId})`);
     
     // 上传图片（如果有）
     let coverImage = null;
     if (imageUrl) {
-      console.log(`  📷 Uploading image: ${imageUrl}`);
+      console.log(`  📷 [图片上传] 开始上传：${imageUrl.substring(0, 80)}...`);
       const imageAssetId = await uploadImageFromUrl(imageUrl);
       if (imageAssetId) {
         coverImage = {
@@ -89,7 +108,9 @@ export async function publishArticle(
             _ref: imageAssetId,
           },
         };
-        console.log('  ✓ Image uploaded successfully');
+        console.log('  ✅ [图片上传] 成功');
+      } else {
+        console.warn('  ⚠️ [图片上传] 失败，文章将无配图');
       }
     }
     
@@ -110,10 +131,12 @@ export async function publishArticle(
       content: {
         zh: [
           {
+            _key: 'zh_block_1',
             _type: 'block',
             style: 'normal',
             children: [
               {
+                _key: 'zh_span_1',
                 _type: 'span',
                 text: processed.content.zh,
               },
@@ -122,10 +145,12 @@ export async function publishArticle(
         ],
         en: [
           {
+            _key: 'en_block_1',
             _type: 'block',
             style: 'normal',
             children: [
               {
+                _key: 'en_span_1',
                 _type: 'span',
                 text: processed.content.en || processed.content.zh,
               },
@@ -134,10 +159,12 @@ export async function publishArticle(
         ],
         id: [
           {
+            _key: 'id_block_1',
             _type: 'block',
             style: 'normal',
             children: [
               {
+                _key: 'id_span_1',
                 _type: 'span',
                 text: processed.content.id || processed.content.en || processed.content.zh,
               },
@@ -146,10 +173,12 @@ export async function publishArticle(
         ],
         th: [
           {
+            _key: 'th_block_1',
             _type: 'block',
             style: 'normal',
             children: [
               {
+                _key: 'th_span_1',
                 _type: 'span',
                 text: processed.content.th || processed.content.en || processed.content.zh,
               },
@@ -158,10 +187,12 @@ export async function publishArticle(
         ],
         vi: [
           {
+            _key: 'vi_block_1',
             _type: 'block',
             style: 'normal',
             children: [
               {
+                _key: 'vi_span_1',
                 _type: 'span',
                 text: processed.content.vi || processed.content.en || processed.content.zh,
               },
@@ -170,10 +201,12 @@ export async function publishArticle(
         ],
         ar: [
           {
+            _key: 'ar_block_1',
             _type: 'block',
             style: 'normal',
             children: [
               {
+                _key: 'ar_span_1',
                 _type: 'span',
                 text: processed.content.ar || processed.content.en || processed.content.zh,
               },
@@ -202,7 +235,14 @@ export async function publishArticle(
     
     // 创建文档
     const result = await client.create(doc);
-    console.log(`  ✅ Published: ${result._id}`);
+    console.log(`  ✅ [发布成功] ID: ${result._id}`);
+    console.log(`     标题：${processed.title.zh}`);
+    console.log(`     分类：${processed.category}`);
+    if (imageUrl) {
+      console.log(`     图片：已上传`);
+    } else {
+      console.log(`     图片：无`);
+    }
     
     return true;
   } catch (error) {
@@ -226,12 +266,19 @@ export async function publishArticles(
       continue;
     }
     
-    const success = await publishArticle(article, source.url, source.name, source.imageUrl);
+    // 优先使用原图，如果没有则使用 AI 生成的图片
+    let imageUrlToUse = source.imageUrl;
+    if (!imageUrlToUse && (article as ArticleWithImage).generatedImageUrl) {
+      imageUrlToUse = (article as ArticleWithImage).generatedImageUrl;
+      console.log(`   Using AI-generated image`);
+    }
+    
+    const success = await publishArticle(article, source.url, source.name, imageUrlToUse);
     if (success) {
       published++;
     }
     
-    // 避免API限流
+    // 避免 API 限流
     await new Promise(resolve => setTimeout(resolve, 1000));
   }
   
