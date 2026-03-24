@@ -7,11 +7,17 @@ export async function GET(request: NextRequest) {
   const authHeader = request.headers.get('authorization');
   const cronSecret = process.env.CRON_SECRET?.trim();
   
+  // 只有在环境变量中配置了 CRON_SECRET 时才进行验证
   if (cronSecret && authHeader !== `Bearer ${cronSecret}`) {
     return NextResponse.json(
-      { error: 'Unauthorized' },
+      { error: 'Unauthorized. Invalid Cron Secret.' },
       { status: 401 }
     );
+  }
+  
+  // 如果没有配置 CRON_SECRET，记录警告但不阻止执行
+  if (!cronSecret) {
+    console.warn('⚠️ WARNING: CRON_SECRET not configured');
   }
   
   try {
