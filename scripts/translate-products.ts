@@ -27,7 +27,7 @@ async function callQwen(prompt: string): Promise<string> {
   
   try {
     const response = await axios.post(
-      'https://dashscope-intl.aliyuncs.com/compatible-mode/v1/chat/completions',
+      'https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions',
       {
         model: 'qwen-turbo',
         messages: [

@@ -29,7 +29,7 @@ export async function callQwen(prompt: string): Promise<string> {
   
   try {
     const response = await axios.post(
-      'https://dashscope-intl.aliyuncs.com/compatible-mode/v1/chat/completions',
+      'https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions',
       {
         model: 'qwen-turbo',
         messages: [
@@ -167,7 +167,7 @@ export async function generateAIImage(prompt: string): Promise<string | null> {
     
     // 第一步：提交任务
     const submitResponse = await axios.post(
-      'https://dashscope-intl.aliyuncs.com/api/v1/services/aigc/text-generation/generation',
+      'https://dashscope.aliyuncs.com/api/v1/services/aigc/text-generation/generation',
       {
         model: 'wanx-v1',
         input: {
@@ -175,7 +175,7 @@ export async function generateAIImage(prompt: string): Promise<string | null> {
         },
         parameters: {
           style: '<auto>',
-          size: '1024*768',
+          size: '1024*1024',
           n: 1,
         },
       },
@@ -204,7 +204,7 @@ export async function generateAIImage(prompt: string): Promise<string | null> {
       await new Promise(resolve => setTimeout(resolve, 2000)); // 等待 2 秒
       
       const statusResponse = await axios.get(
-        `https://dashscope-intl.aliyuncs.com/api/v1/tasks/${taskId}`,
+        `https://dashscope.aliyuncs.com/api/v1/tasks/${taskId}`,
         {
           headers: {
             'Authorization': `Bearer ${apiKey}`,

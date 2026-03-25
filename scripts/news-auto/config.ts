@@ -1,6 +1,6 @@
 ﻿/**
  * 自动化新闻生成配置
- * ⚠️  新闻源配置已迁移到独立文件：scripts/news-auto/news-sources.config.ts
+ * ⚠️ 新闻源配置已迁移到独立文件：scripts/news-auto/news-sources.config.ts
  *     维护新闻源时请直接编辑该独立文件，无需改动此处。
  */
 export const NEWS_CONFIG = {

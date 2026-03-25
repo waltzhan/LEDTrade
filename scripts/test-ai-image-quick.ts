@@ -28,7 +28,7 @@ async function testAIImage() {
     
     // 提交任务
     const submitResponse = await axios.post(
-      'https://dashscope-intl.aliyuncs.com/api/v1/services/aigc/text-generation/generation',
+      'https://dashscope.aliyuncs.com/api/v1/services/aigc/text-generation/generation',
       {
         model: 'wanx-v1',
         input: { prompt },
@@ -60,7 +60,7 @@ async function testAIImage() {
       await new Promise(resolve => setTimeout(resolve, 2000));
       
       const statusResponse = await axios.get(
-        `https://dashscope-intl.aliyuncs.com/api/v1/tasks/${taskId}`,
+        `https://dashscope.aliyuncs.com/api/v1/tasks/${taskId}`,
         {
           headers: { 'Authorization': `Bearer ${apiKey}` },
           timeout: 10000,
