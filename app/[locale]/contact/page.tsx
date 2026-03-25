@@ -46,6 +46,15 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   return {
     title,
     description,
+    keywords: [
+      'Contact GOPRO LED',
+      'LED supplier contact',
+      'LED inquiry',
+      'Get LED quote',
+      'LED sales team',
+      locale === 'zh' ? '联系光莆' : 'Contact GOPRO',
+      'LED manufacturer email',
+    ],
     alternates: {
       canonical: `${baseUrl}/${locale}/contact`,
       languages: alternateLanguages,

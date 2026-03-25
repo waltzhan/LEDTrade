@@ -36,6 +36,17 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   return {
     title,
     description,
+    keywords: [
+      'LED manufacturer',
+      'IR LED',
+      'UV LED',
+      'Visible Light LED',
+      'LED supplier',
+      'LED factory',
+      'LED China',
+      locale === 'zh' ? '光莆 LED' : 'GOPRO LED',
+      'LED wholesaler',
+    ],
     alternates: {
       canonical: `${baseUrl}/${locale}`,
       languages: alternateLanguages,

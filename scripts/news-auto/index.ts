@@ -56,11 +56,20 @@ export async function runNewsAutomation(): Promise<void> {
     // 6. 发布到 Sanity
     const published = await publishArticles(processedArticles, sourceMap);
 
-    console.log('\n📊 Summary:');
-    console.log(`  Crawled: ${rawArticles.length}`);
-    console.log(`  Processed: ${processedArticles.length}`);
-    console.log(`  Published: ${published}`);
-    console.log(`  Remaining quota: ${quota - published}`);
+    console.log('\n📊 ====== 任务完成摘要 ======');
+    console.log(`  🕷️  抓取：${rawArticles.length} 篇`);
+    console.log(`  🤖 AI 处理：${processedArticles.length} 篇`);
+    console.log(`  ✅ 发布成功：${published} 篇`);
+    console.log(`  💾 剩余配额：${quota - published} 篇`);
+    
+    // 显示发布的文章详情
+    if (published > 0) {
+      console.log('\n📋 已发布文章列表:');
+      processedArticles.slice(0, published).forEach((article, idx) => {
+        console.log(`  ${idx + 1}. ${article.title.zh}`);
+      });
+    }
+    console.log('============================\n');
 
   } catch (error) {
     console.error('💥 Automation failed:', error);

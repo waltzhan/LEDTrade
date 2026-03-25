@@ -1,0 +1,87 @@
+{
+  "name": "multi-industry-cms-template",
+  "version": "1.0.0",
+  "description": "基于 Next.js + Sanity 的多行业企业官网模板",
+  "industry": "通用版",
+  "features": {
+    "core": {
+      "enabled": true,
+      "description": "核心功能 - 所有行业都需要"
+    },
+    "products": {
+      "enabled": true,
+      "description": "产品中心 - 适合制造业、零售业等",
+      "customizable": true
+    },
+    "news": {
+      "enabled": true,
+      "description": "资讯中心 - 支持自动采集和 AI 生成",
+      "autoPublish": {
+        "enabled": false,
+        "description": "资讯自动化发布（可选功能）"
+      }
+    },
+    "geo_seo": {
+      "enabled": true,
+      "description": "GEO-SEO 优化 - AI 搜索引擎优化"
+    },
+    "multilingual": {
+      "enabled": true,
+      "locales": ["zh", "en"],
+      "description": "多语言支持，默认中英文"
+    },
+    "contact_form": {
+      "enabled": true,
+      "description": "联系表单/询盘功能"
+    },
+    "analytics": {
+      "enabled": false,
+      "description": "Google Analytics（可选）"
+    }
+  },
+  "industryPresets": {
+    "manufacturing": {
+      "name": "制造业",
+      "description": "LED、电子、机械等制造企业",
+      "features": ["products", "news", "geo_seo", "contact_form"],
+      "contentTypes": ["product", "category", "article"]
+    },
+    "service": {
+      "name": "服务业",
+      "description": "咨询、法律、会计等专业服务",
+      "features": ["news", "geo_seo", "contact_form"],
+      "contentTypes": ["article", "service"]
+    },
+    "retail": {
+      "name": "零售业",
+      "description": "电商、品牌零售",
+      "features": ["products", "news", "contact_form"],
+      "contentTypes": ["product", "category"]
+    },
+    "technology": {
+      "name": "科技行业",
+      "description": "软件、SaaS、AI 公司",
+      "features": ["products", "news", "geo_seo"],
+      "contentTypes": ["product", "article", "case_study"]
+    },
+    "healthcare": {
+      "name": "医疗健康",
+      "description": "医院、诊所、健康机构",
+      "features": ["news", "contact_form", "geo_seo"],
+      "contentTypes": ["article", "doctor", "department"]
+    },
+    "education": {
+      "name": "教育培训",
+      "description": "学校、培训机构",
+      "features": ["news", "contact_form"],
+      "contentTypes": ["article", "course", "program"]
+    }
+  },
+  "quickStart": {
+    "step1": "根据行业选择预设配置",
+    "step2": "修改 lib/config/industry.ts 中的配置",
+    "step3": "运行 npm run setup:industry 初始化",
+    "step4": "在 Sanity 后台创建项目",
+    "step5": "配置 .env.local 环境变量"
+  }
+}

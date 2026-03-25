@@ -4,7 +4,15 @@ import * as cheerio from 'cheerio';
 import { NEWS_CONFIG } from './config';
 import { getEnabledSources, type NewsSource } from './news-sources.config';
 
-const rssParser = new Parser();
+const rssParser = new Parser({
+  // 自定义 XML 解析选项，避免 url.parse() 警告
+  customFields: {
+    item: [
+      ['media:content', 'mediaContent'],
+      ['content:encoded', 'contentEncoded'],
+    ],
+  },
+});
 
 export interface RawArticle {
   title: string;

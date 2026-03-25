@@ -97,8 +97,13 @@ export default function Footer({ locale, messages }: FooterProps) {
                 </Link>
               </li>
               <li>
-                <Link href={getLocalizedHref('/solutions')} className="text-gray-400 hover:text-white text-sm transition-colors">
-                  {messages.navigation.solutions}
+                <Link href={getLocalizedHref('/glossary')} className="text-gray-400 hover:text-white text-sm transition-colors">
+                  LED Glossary
+                </Link>
+              </li>
+              <li>
+                <Link href={getLocalizedHref('/news')} className="text-gray-400 hover:text-white text-sm transition-colors">
+                  News
                 </Link>
               </li>
               <li>
@@ -107,8 +112,8 @@ export default function Footer({ locale, messages }: FooterProps) {
                 </Link>
               </li>
               <li>
-                <Link href={getLocalizedHref('/support')} className="text-gray-400 hover:text-white text-sm transition-colors">
-                  {messages.navigation.support}
+                <Link href={getLocalizedHref('/contact')} className="text-gray-400 hover:text-white text-sm transition-colors">
+                  {messages.navigation.contact}
                 </Link>
               </li>
             </ul>

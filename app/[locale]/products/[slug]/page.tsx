@@ -6,6 +6,8 @@ import { Locale, locales } from '@/lib/i18n/config';
 import { getProductBySlug, getAllProductSlugs, getRelatedProducts } from '@/lib/sanity/queries';
 import { urlForImage } from '@/lib/sanity/client';
 import { generateProductSchema, generateBreadcrumbSchema } from '@/lib/utils/structured-data';
+import { generateCitableProductDescription, generateProductFAQs } from '@/lib/geo/ai-citability';
+import { AICitableContentBlock, FAQList } from '@/components/products/ai-citability-block';
 
 // 加载翻译文件
 function getMessages(locale: string) {
@@ -213,6 +215,17 @@ export default async function ProductDetailPage({
   const applications: string[] =
     product.applications?.[locale] || product.applications?.en || product.applications?.zh || [];
 
+  // 生成 AI Citability 内容
+  const citableContent = generateCitableProductDescription(
+    productName,
+    categoryName,
+    features,
+    product.specifications || [],
+    applications
+  );
+  
+  const faqs = generateProductFAQs(productName, categoryName, applications);
+
   const imageUrl = product.mainImage ? urlForImage(product.mainImage) : null;
 
   // 结构化数据
@@ -392,6 +405,17 @@ export default async function ProductDetailPage({
               </div>
             </div>
           )}
+
+          {/* AI Citability Content Block - GEO 优化 */}
+          <AICitableContentBlock
+            question={citableContent.question}
+            answer={citableContent.answer}
+            dataPoints={citableContent.dataPoints}
+            keywords={citableContent.keywords}
+          />
+
+          {/* FAQ Section - AI 引用优化 */}
+          <FAQList faqs={faqs} />
 
           {/* Related Products */}
           {relatedProducts.length > 0 && (

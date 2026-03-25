@@ -36,6 +36,15 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   return {
     title,
     description,
+    keywords: [
+      'About GOPRO LED',
+      'LED company profile',
+      'LED manufacturer history',
+      'Xiamen LED factory',
+      'ISO certified LED',
+      locale === 'zh' ? '光莆电子' : 'GOPRO LED company',
+      'LED supplier background',
+    ],
     alternates: {
       canonical: `${baseUrl}/${locale}/about`,
       languages: alternateLanguages,
