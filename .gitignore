@@ -35,6 +35,19 @@ yarn-error.log*
 .env*
 !.env.example
 
+# AI & IDE configurations
+.qoder/
+.idea/
+.vscode/
+*.code-workspace
+
+# Documentation with sensitive info
+API_Key.txt
+备忘录*.md
+*使用指南.md
+DEPLOYMENT_GUIDE.md
+TEMPLATE_README.md
+
 # vercel
 .vercel
 
