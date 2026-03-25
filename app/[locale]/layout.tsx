@@ -4,6 +4,7 @@ import { locales, type Locale, rtlLocales, defaultLocale } from '@/lib/i18n/conf
 import Navbar from '@/components/layout/navbar';
 import Footer from '@/components/layout/footer';
 import GoogleAnalytics from '@/components/analytics/GoogleAnalytics';
+import ThirdPartyAnalytics from '@/components/analytics/ThirdPartyAnalytics';
 import './globals.css';
 
 const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://ledcoreco.com';
@@ -56,6 +57,10 @@ export default async function LocaleLayout({
 
   return (
     <html lang={locale} dir={isRTL ? 'rtl' : 'ltr'}>
+      <head>
+        {/* 第三方统计代码 - 异步加载，不阻塞渲染 */}
+        <ThirdPartyAnalytics />
+      </head>
       <body className={`${isRTL ? 'rtl' : 'ltr'} flex flex-col min-h-screen`}>
         {/* GA4 数据分析（afterInteractive，不阻塞渲染） */}
         <GoogleAnalytics />
