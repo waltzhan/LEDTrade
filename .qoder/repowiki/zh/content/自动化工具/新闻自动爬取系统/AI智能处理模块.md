@@ -39,7 +39,7 @@
 ## 简介
 本文件为"AI智能处理模块"的技术文档，聚焦于自动化新闻采集、AI内容改写与多语言翻译、关键词抽取、SEO优化以及最终发布到内容管理系统（Sanity）的完整流程。模块通过调用通义千问（阿里云百炼）大模型完成中文改写、标题与摘要生成、多语言翻译、关键词抽取等任务；同时内置新闻源配置、调度策略、去重与关键词过滤、图片上传与文档构建等功能，形成端到端的自动化内容生产流水线。
 
-**更新** 本版本新增了AI图像生成功能，通过通义万相API为每篇文章自动生成高质量的专业配图，显著提升了内容的视觉表现力和用户体验。
+**更新** 本版本新增了AI图像生动生成功能，通过通义万相API为每篇文章自动生成高质量的专业配图，显著提升了内容的视觉表现力和用户体验。
 
 ## 项目结构
 该模块位于脚本目录 scripts/news-auto 下，采用功能分层设计：
@@ -73,7 +73,7 @@ G --> K["DASHSCOPE_API_KEY<br/>验证"]
 - [scripts/news-auto/config.ts:1-45](file://scripts/news-auto/config.ts#L1-L45)
 - [scripts/news-auto/news-sources.config.ts:1-155](file://scripts/news-auto/news-sources.config.ts#L1-L155)
 - [scripts/news-auto/scheduler.ts:1-104](file://scripts/news-auto/scheduler.ts#L1-L104)
-- [app/api/cron/news/route.ts:1-52](file://app/api/cron/news/route.ts#L1-L52)
+- [app/api/cron/news/route.ts:1-58](file://app/api/cron/news/route.ts#L1-L58)
 
 **章节来源**
 - [scripts/news-auto/index.ts:1-92](file://scripts/news-auto/index.ts#L1-L92)
@@ -104,7 +104,7 @@ G --> K["DASHSCOPE_API_KEY<br/>验证"]
 - [scripts/news-auto/config.ts:1-45](file://scripts/news-auto/config.ts#L1-L45)
 - [scripts/news-auto/news-sources.config.ts:1-155](file://scripts/news-auto/news-sources.config.ts#L1-L155)
 - [scripts/news-auto/scheduler.ts:1-104](file://scripts/news-auto/scheduler.ts#L1-L104)
-- [app/api/cron/news/route.ts:1-52](file://app/api/cron/news/route.ts#L1-L52)
+- [app/api/cron/news/route.ts:1-58](file://app/api/cron/news/route.ts#L1-L58)
 
 ## 架构总览
 整体流程从"抓取"开始，经过"AI处理"，再到"发布"，期间受"调度"与"配置"约束。AI处理阶段以通义千问API为核心，围绕中文改写、标题/摘要生成、多语言翻译、关键词抽取展开，**新增AI图像生成功能**；发布阶段负责与Sanity集成，确保内容结构化入库。
@@ -294,12 +294,12 @@ S-->>Pub : "返回ID"
   - 错误处理：详细的错误信息返回和日志记录。
 
 **章节来源**
-- [app/api/cron/news/route.ts:1-52](file://app/api/cron/news/route.ts#L1-L52)
+- [app/api/cron/news/route.ts:1-58](file://app/api/cron/news/route.ts#L1-L58)
 
 ## AI图像生动生成功能
 
 ### 功能概述
-AI图像生成功能通过通义万相API为每篇文章自动生成高质量的专业配图，显著提升了内容的视觉表现力。该功能完全集成到现有AI处理流程中，实现了从内容生成到视觉呈现的一体化自动化。
+AI图像生动生成功能通过通义万相API为每篇文章自动生成高质量的专业配图，显著提升了内容的视觉表现力。该功能完全集成到现有AI处理流程中，实现了从内容生成到视觉呈现的一体化自动化。
 
 ### 核心组件
 
@@ -369,7 +369,7 @@ AI图像生动生成功能在发布流程中的集成采用了智能回退策略
   - index.ts串联各层，耦合度低，便于扩展。
   - ai-processor.ts依赖config.ts中的AI参数与TARGET_LOCALES，**新增DASHSCOPE_API_KEY依赖**。
   - crawler.ts依赖news-sources.config.ts的源配置。
-  - publisher.ts依赖Sanity客户端与config.ts中的分类映射，**集成AI图像生成功能**。
+  - publisher.ts依赖Sanity客户端与config.ts中的分类映射，**集成AI图像生动生成功能**。
   - scheduler.ts依赖Sanity客户端查询发布计数。
   - **app/api/cron/news/route.ts依赖DASHSCOPE_API_KEY进行安全验证**。
 
@@ -451,7 +451,7 @@ Sched --> Sanity
 - **API密钥配置错误**
   - 现象：定时任务API返回"未配置DASHSCOPE_API_KEY"错误。
   - 处理：在环境变量中正确设置DASHSCOPE_API_KEY。
-  - 参考位置：[app/api/cron/news/route.ts:20-26](file://app/api/cron/news/route.ts#L20-L26)
+  - 参考位置：[app/api/cron/news/route.ts:26-32](file://app/api/cron/news/route.ts#L26-L32)
 - 时间窗口与配额问题
   - 现象：未在发布窗口内或已达每日配额。
   - 处理：检查调度逻辑与环境变量、确认发布时间点与配额。
@@ -465,18 +465,18 @@ Sched --> Sanity
 - [scripts/news-auto/publisher.ts:21-24](file://scripts/news-auto/publisher.ts#L21-L24)
 - [scripts/news-auto/publisher.ts:27-55](file://scripts/news-auto/publisher.ts#L27-L55)
 - [scripts/news-auto/ai-processor.ts:344-351](file://scripts/news-auto/ai-processor.ts#L344-L351)
-- [app/api/cron/news/route.ts:20-26](file://app/api/cron/news/route.ts#L20-L26)
+- [app/api/cron/news/route.ts:26-32](file://app/api/cron/news/route.ts#L26-L32)
 - [scripts/news-auto/scheduler.ts:29-94](file://scripts/news-auto/scheduler.ts#L29-L94)
 
 ## 结论
-该AI智能处理模块以清晰的分层架构实现了从新闻采集、AI内容改写与翻译、关键词抽取到发布入库的全链路自动化。**最新版本新增的AI图像生成功能通过通义万相API为每篇文章自动生成高质量专业配图，显著提升了内容的视觉表现力和用户体验。**通过可配置的新闻源、调度策略与AI参数，系统具备良好的可维护性与扩展性。建议后续在保证稳定性前提下引入并发与缓存机制，进一步提升吞吐能力，并考虑优化AI图像生成的成本控制策略。
+该AI智能处理模块以清晰的分层架构实现了从新闻采集、AI内容改写与翻译、关键词抽取到发布入库的全链路自动化。**最新版本新增的AI图像生动生成功能通过通义万相API为每篇文章自动生成高质量专业配图，显著提升了内容的视觉表现力和用户体验。**通过可配置的新闻源、调度策略与AI参数，系统具备良好的可维护性与扩展性。建议后续在保证稳定性前提下引入并发与缓存机制，进一步提升吞吐能力，并考虑优化AI图像生成的成本控制策略。
 
 ## 附录
 
 ### 使用示例与最佳实践
 - 设置API密钥
   - 在运行环境中设置通义千问API密钥和通义万相API密钥，确保调用可用。
-  - 参考位置：[scripts/news-auto/ai-processor.ts:23-28](file://scripts/news-auto/ai-processor.ts#L23-L28)、[app/api/cron/news/route.ts:20-26](file://app/api/cron/news/route.ts#L20-L26)
+  - 参考位置：[scripts/news-auto/ai-processor.ts:23-28](file://scripts/news-auto/ai-processor.ts#L23-L28)、[app/api/cron/news/route.ts:26-32](file://app/api/cron/news/route.ts#L26-L32)
 - 调整AI参数
   - 在配置中调整模型、温度、最大token等，平衡质量与成本。
   - 参考位置：[scripts/news-auto/config.ts:22-26](file://scripts/news-auto/config.ts#L22-L26)
@@ -504,4 +504,4 @@ Sched --> Sanity
 - **部署注意事项**
   - **确保DASHSCOPE_API_KEY环境变量在生产环境中正确配置。**
   - **定期检查API服务状态和配额使用情况。**
-  - **参考位置：** [app/api/cron/news/route.ts:20-26](file://app/api/cron/news/route.ts#L20-L26)
+  - **参考位置：** [app/api/cron/news/route.ts:26-32](file://app/api/cron/news/route.ts#L26-L32)
