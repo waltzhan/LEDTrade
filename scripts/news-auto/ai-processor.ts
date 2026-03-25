@@ -167,7 +167,7 @@ export async function generateAIImage(prompt: string): Promise<string | null> {
     
     // 第一步：提交任务
     const submitResponse = await axios.post(
-      'https://dashscope.aliyuncs.com/api/v1/services/aigc/text-generation/generation',
+      'https://dashscope.aliyuncs.com/api/v1/services/aigc/text2image/image-synthesis', // 修正：使用正确的通义万相端点
       {
         model: 'wanx-v1',
         input: {

@@ -66,23 +66,23 @@ export const NEWS_SOURCES: NewsSource[] = [
     name: '半导体行业观察',
     url: 'https://www.semi.org.cn',
     type: 'rss',
-    rss: 'https://www.semi.org.cn/rss',
+    rss: 'https://www.semi.org.cn/index.php?m=content&c=index&a=lists&catid=1', // 修正：尝试使用实际分类 RSS
     category: 'industry',
     language: 'zh',
     priority: 2,
-    enabled: true,
-    notes: '中文半导体产业资讯门户',
+    enabled: false, // 暂停使用，等待验证
+    notes: '⚠️ RSS 地址待验证，暂时禁用',
   },
   {
     name: 'OFweek 半导体照明',
-    url: 'https://led.ofweek.com',
+    url: 'https://www.ofweek.com',
     type: 'rss',
-    rss: 'https://led.ofweek.com/rss.xml',
+    rss: 'https://www.ofweek.com/Feed/RssList.aspx', // 修正：使用 OFweek 主站 RSS
     category: 'technical',
     language: 'zh',
     priority: 3,
-    enabled: true,
-    notes: '技术专业媒体，RSS 可用',
+    enabled: false, // 暂停使用，led.ofweek.com 已关闭
+    notes: '⚠️ led.ofweek.com DNS 错误，可能已关闭，等待验证新地址',
   },
   {
     name: '中国照明网',
@@ -92,8 +92,8 @@ export const NEWS_SOURCES: NewsSource[] = [
     category: 'technical',
     language: 'zh',
     priority: 4,
-    enabled: true,
-    notes: '照明技术与产业资讯',
+    enabled: false, // 暂停使用，连接超时
+    notes: '⚠️ 连接超时（211.147.242.53:443），可能需要 UA 伪装或代理',
   },
   {
     name: '机器之心',
@@ -136,8 +136,8 @@ export const NEWS_SOURCES: NewsSource[] = [
     category: 'technical',
     language: 'zh',
     priority: 8,
-    enabled: true,
-    notes: '产业政策与前沿技术，新能源材料',
+    enabled: false, // 暂停使用，连接超时
+    notes: '⚠️ 连接超时（116.62.30.152:443），可能需要 UA 伪装或代理',
   },
   {
     name: '半导体照明网',
@@ -167,7 +167,7 @@ export const NEWS_SOURCES: NewsSource[] = [
     name: 'IEEE Spectrum',
     url: 'https://spectrum.ieee.org',
     type: 'rss',
-    rss: 'https://spectrum.ieee.org/rss/all.xml',
+    rss: 'https://spectrum.ieee.org/rss.xml', // 修正：使用正确的 RSS 地址
     category: 'technical',
     language: 'en',
     priority: 1,
@@ -207,8 +207,8 @@ export const NEWS_SOURCES: NewsSource[] = [
     category: 'application',
     language: 'en',
     priority: 4,
-    enabled: true,
-    notes: '芯片深度评测与分析，半导体硬件新闻',
+    enabled: false, // 暂停使用，XML 格式有问题
+    notes: '⚠️ RSS XML 格式不规范（Attribute without value），暂时禁用',
   },
   {
     name: 'Tom\'s Hardware',
