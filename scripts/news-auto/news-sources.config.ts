@@ -188,14 +188,13 @@ export const NEWS_SOURCES: NewsSource[] = [
   {
     name: 'LEDs Magazine',
     url: 'https://www.ledsmagazine.com',
-    type: 'rss+web',
-    rss: 'https://www.ledsmagazine.com/rss.xml',
+    type: 'web',
     selector: '.article-teaser',
     category: 'industry',
     language: 'en',
     priority: 3,
-    enabled: true,
-    notes: '英文 LED 行业媒体，RSS+Web 双模式',
+    enabled: false,
+    notes: '⚠️ RSS 解析错误，暂时禁用（Web 模式待实现）',
     headers: {
       'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
     },

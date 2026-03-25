@@ -38,6 +38,12 @@ async function fetchFromRSS(source: NewsSource): Promise<RawArticle[]> {
 
     const feed = await rssParser.parseURL(source.rss, feedOptions as any);
 
+    // 检查是否有 items
+    if (!feed.items || !Array.isArray(feed.items)) {
+      console.log(`⚠️  No items found in RSS feed for ${source.name}`);
+      return [];
+    }
+
     return feed.items.slice(0, 5).map(item => {
       // 尝试从 enclosure 或 content 中提取图片
       let imageUrl = '';
