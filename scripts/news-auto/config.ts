@@ -11,11 +11,45 @@ export const NEWS_CONFIG = {
     autoPublish: true,
   },
 
-  // 关键词过滤 - 放宽条件以获取更多文章
+  // 关键词过滤 - 中英文自动识别，支持更广泛的 LED 行业术语
   keywords: {
-    required: ['LED', 'Micro LED', 'Mini LED', 'OLED', '半导体', '光电', '显示', '照明', '光运用', '光传感', '智能传感', '具身智能', 'Marvell', 'Mojo Vision', 'ams OSRAM', 'Eaglerise'],
-    optional: ['光莆', 'GOPRO', '红外', '紫外', '可见光', 'UV', 'IR', '光学', '芯片', '封装', 'Mini LED', 'Micro LED'],
-    exclude: ['股票', '股价', '投资', '理财', '赌博'],
+    // 必需关键词（中英文混合，自动匹配）
+    required: [
+      // LED 技术类
+      'LED', 'Micro LED', 'Mini LED', 'OLED', 'AMOLED',
+      'QD-LED', 'QLED', '量子点', 'Quantum Dot',
+      // 半导体/光电类
+      '半导体', 'Semiconductor', '光电', 'Optoelectronics', '光子', 'Photonics',
+      // 显示/照明类
+      '显示', 'Display', '照明', 'Lighting', '背光', 'Backlight',
+      // 光学/传感类
+      '光运用', '光传感', '智能传感', 'Smart Sensor', '光学', 'Optical',
+      '具身智能', 'Embodied AI',
+      // 红外/紫外/可见光
+      '红外', 'Infrared', 'IR', '紫外', 'Ultraviolet', 'UV', '可见光', 'Visible Light',
+      // 芯片/封装
+      '芯片', 'Chip', '封装', 'Packaging', '晶圆', 'Wafer',
+      // 特定公司/品牌
+      'Marvell', 'Mojo Vision', 'ams OSRAM', 'Eaglerise', '光莆', 'GOPRO',
+    ],
+    
+    // 可选关键词（用于评分排序，非必需）
+    optional: [
+      // 技术术语
+      '波长', 'Wavelength', '亮度', 'Brightness', '流明', 'Lumen',
+      '色温', 'Color Temperature', '显指', 'CRI', 'Ra',
+      '效率', 'Efficiency', '节能', 'Energy Saving',
+      '智能', 'Smart', 'IoT', '物联网', 'Internet of Things',
+      '汽车', 'Automotive', '车载', 'Vehicle',
+      '医疗', 'Medical', '健康', 'Health',
+      '植物照明', 'Plant Lighting', '农业', 'Agriculture',
+    ],
+    
+    // 排除关键词（包含即过滤）
+    exclude: [
+      '赌博',
+      'Gambling',
+    ],
   },
 
   // AI 改写配置
