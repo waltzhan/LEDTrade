@@ -14,10 +14,20 @@ function generateSlug(title: string): string {
 async function checkDuplicate(title: string, sourceUrl?: string): Promise<boolean> {
   // 1. 先检查原始 URL 是否已存在（最准确）
   if (sourceUrl) {
-    const urlQuery = `*[_type == "article" && source.url == "${sourceUrl}"][0]`;
+    // 规范化 URL 格式，处理相对路径问题
+    const normalizedUrl = sourceUrl.startsWith('//') ? `https:${sourceUrl}` : sourceUrl;
+    const urlQuery = `*[_type == "article" && source.url == "${normalizedUrl}"][0]`;
     const existingByUrl = await client.fetch(urlQuery);
     if (existingByUrl) {
-      console.log(`  ⚠️ [重复检测] URL 已存在：${sourceUrl}`);
+      console.log(`  ⚠️ [重复检测] URL 已存在：${normalizedUrl}`);
+      return true;
+    }
+    
+    // 也检查原始格式（以防万一）
+    const originalUrlQuery = `*[_type == "article" && source.url == "${sourceUrl}"][0]`;
+    const existingByOriginalUrl = await client.fetch(originalUrlQuery);
+    if (existingByOriginalUrl) {
+      console.log(`  ⚠️ [重复检测] URL 已存在（原始格式）：${sourceUrl}`);
       return true;
     }
   }
@@ -83,6 +93,7 @@ export async function publishArticle(
     const isDuplicate = await checkDuplicate(processed.title.zh, sourceUrl);
     if (isDuplicate) {
       console.log(`  ⚠️ Article already exists: ${processed.title.zh}`);
+      console.log(`     Source URL being checked: ${sourceUrl}`);
       return false;
     }
     
@@ -234,6 +245,9 @@ export async function publishArticle(
     };
     
     // 创建文档
+    console.log(`  📝 Creating Sanity document...`);
+    console.log(`     Title: ${processed.title.zh}`);
+    console.log(`     Source URL to save: ${sourceUrl}`);
     const result = await client.create(doc);
     console.log(`  ✅ [发布成功] ID: ${result._id}`);
     console.log(`     标题：${processed.title.zh}`);
