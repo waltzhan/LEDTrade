@@ -1,9 +1,29 @@
 import { crawlNews } from './crawler';
 import { processArticles } from './ai-processor';
-import { publishArticles } from './publisher';
+import { publishArticles, checkDuplicate } from './publisher';
 import { shouldPublish, getPublishQuota } from './scheduler';
 import type { RawArticle } from './crawler';
 import type { ProcessedArticle } from './ai-processor';
+
+// 预检查重复文章（不重复的才进行 AI 处理）
+async function filterNonDuplicateArticles(
+  articles: RawArticle[]
+): Promise<{ nonDuplicate: RawArticle[]; duplicates: string[] }> {
+  const nonDuplicate: RawArticle[] = [];
+  const duplicates: string[] = [];
+  
+  for (const article of articles) {
+    const isDuplicate = await checkDuplicate(article.title, article.link);
+    if (isDuplicate) {
+      duplicates.push(article.title);
+      console.log(`  ⏭️  跳过重复文章：${article.title.substring(0, 40)}...`);
+    } else {
+      nonDuplicate.push(article);
+    }
+  }
+  
+  return { nonDuplicate, duplicates };
+}
 
 // 主流程
 export async function runNewsAutomation(): Promise<void> {
@@ -34,16 +54,33 @@ export async function runNewsAutomation(): Promise<void> {
     const articlesToProcess = rawArticles.slice(0, quota);
     console.log(`\n📝 Processing ${articlesToProcess.length} articles (quota: ${quota})`);
 
-    // 4. AI 处理
-    const processedArticles = await processArticles(articlesToProcess);
+    // 3.5 预检查重复（在 AI 处理之前过滤掉已存在的文章）
+    console.log(`\n🔍 Pre-checking for duplicates...`);
+    const { nonDuplicate, duplicates } = await filterNonDuplicateArticles(articlesToProcess);
+    console.log(`   ✓ Non-duplicate articles: ${nonDuplicate.length}`);
+    console.log(`   ⏭️  Duplicates found: ${duplicates.length}`);
+    
+    if (nonDuplicate.length === 0) {
+      console.log('\n⚠️  No new articles to process (all are duplicates)');
+      console.log('\n📊 ====== 任务完成摘要 ======');
+      console.log(`  🕷️  抓取：${rawArticles.length} 篇`);
+      console.log(`  ⏭️  重复跳过：${duplicates.length} 篇`);
+      console.log(`  🤖 AI 处理：0 篇`);
+      console.log(`  ✅ 发布成功：0 篇`);
+      console.log('============================\n');
+      return;
+    }
+
+    // 4. AI 处理（只处理非重复的文章）
+    const processedArticles = await processArticles(nonDuplicate);
     if (processedArticles.length === 0) {
       console.log('❌ Article processing failed');
       return;
     }
 
-    // 5. 构建 sourceMap
+    // 5. 构建 sourceMap（使用非重复的文章列表）
     const sourceMap = new Map<string, { url: string; name: string; imageUrl?: string }>();
-    articlesToProcess.forEach((raw, index) => {
+    nonDuplicate.forEach((raw, index) => {
       if (processedArticles[index]) {
         sourceMap.set(processedArticles[index].title.zh, {
           url: raw.link,
@@ -58,6 +95,7 @@ export async function runNewsAutomation(): Promise<void> {
 
     console.log('\n📊 ====== 任务完成摘要 ======');
     console.log(`  🕷️  抓取：${rawArticles.length} 篇`);
+    console.log(`  ⏭️  重复跳过：${duplicates.length} 篇`);
     console.log(`  🤖 AI 处理：${processedArticles.length} 篇`);
     console.log(`  ✅ 发布成功：${published} 篇`);
     console.log(`  💾 剩余配额：${quota - published} 篇`);

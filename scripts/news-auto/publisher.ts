@@ -10,8 +10,8 @@ function generateSlug(title: string): string {
     .substring(0, 50);
 }
 
-// 检查文章是否已存在（基于中文标题或原始 URL）
-async function checkDuplicate(title: string, sourceUrl?: string): Promise<boolean> {
+// 检查文章是否已存在（基于中文标题或原始 URL）- 导出供外部调用
+export async function checkDuplicate(title: string, sourceUrl?: string): Promise<boolean> {
   // 1. 先检查原始 URL 是否已存在（最准确）
   if (sourceUrl) {
     // 规范化 URL 格式，处理相对路径问题
