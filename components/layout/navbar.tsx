@@ -62,7 +62,8 @@ export default function Navbar({ locale, messages }: NavbarProps) {
     { href: '/', label: messages.navigation.home },
     { href: '/products', label: messages.navigation.products },
     { href: '/news', label: messages.navigation.news },
-    { href: '/glossary', label: 'Glossary' }, // 新增术语表链接
+    // Glossary 模块已隐藏 - 不前端显示
+    // { href: '/glossary', label: 'Glossary' },
     { href: '/about', label: messages.navigation.about },
     { href: '/contact', label: messages.navigation.contact },
   ];

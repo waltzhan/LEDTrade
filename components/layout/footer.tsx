@@ -96,11 +96,12 @@ export default function Footer({ locale, messages }: FooterProps) {
                   {messages.navigation.products}
                 </Link>
               </li>
-              <li>
+              {/* Glossary 模块已隐藏 - 不前端显示 */}
+              {/* <li>
                 <Link href={getLocalizedHref('/glossary')} className="text-gray-400 hover:text-white text-sm transition-colors">
                   LED Glossary
                 </Link>
-              </li>
+              </li> */}
               <li>
                 <Link href={getLocalizedHref('/news')} className="text-gray-400 hover:text-white text-sm transition-colors">
                   News

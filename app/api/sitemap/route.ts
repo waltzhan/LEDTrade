@@ -11,6 +11,8 @@ const staticPages = [
   { path: '/about', priority: 0.9, changefreq: 'weekly' },
   { path: '/products', priority: 0.9, changefreq: 'daily' },
   { path: '/contact', priority: 0.8, changefreq: 'monthly' },
+  // Glossary 术语表页面 - 保留在 sitemap 中以利 SEO
+  { path: '/glossary', priority: 0.7, changefreq: 'weekly' },
 ];
 
 export async function GET() {
