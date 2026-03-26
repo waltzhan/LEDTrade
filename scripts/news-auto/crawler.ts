@@ -4,6 +4,9 @@ import * as cheerio from 'cheerio';
 import { NEWS_CONFIG } from './config';
 import { getEnabledSources, type NewsSource } from './news-sources.config';
 
+// 超时配置：避免 Vercel 函数超时
+const REQUEST_TIMEOUT = 8000; // 8 秒超时
+
 const rssParser = new Parser({
   // 自定义 XML 解析选项，避免 url.parse() 警告
   customFields: {
@@ -12,6 +15,7 @@ const rssParser = new Parser({
       ['content:encoded', 'contentEncoded'],
     ],
   },
+  timeout: REQUEST_TIMEOUT, // RSS 解析器超时
 });
 
 export interface RawArticle {
@@ -89,7 +93,11 @@ async function fetchFromWeb(source: NewsSource): Promise<RawArticle[]> {
       ...source.headers,
     };
 
-    const response = await axios.get(source.url, { headers, timeout: 10000 });
+    // 使用全局超时配置
+    const response = await axios.get(source.url, { 
+      headers, 
+      timeout: REQUEST_TIMEOUT,
+    });
 
     const $ = cheerio.load(response.data);
     const articles: RawArticle[] = [];

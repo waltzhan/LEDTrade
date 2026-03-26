@@ -2,6 +2,11 @@ import axios from 'axios';
 import { NEWS_CONFIG, TARGET_LOCALES } from './config';
 import type { RawArticle } from './crawler';
 
+// 创建带超时的 axios 实例，避免 Vercel 函数超时
+const axiosWithTimeout = axios.create({
+  timeout: 30000, // 30 秒超时
+});
+
 export interface ProcessedArticle {
   title: Record<string, string>;
   excerpt: Record<string, string>;
@@ -28,7 +33,7 @@ export async function callQwen(prompt: string): Promise<string> {
   }
   
   try {
-    const response = await axios.post(
+    const response = await axiosWithTimeout.post(
       'https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions',
       {
         model: 'qwen-turbo',
@@ -50,7 +55,6 @@ export async function callQwen(prompt: string): Promise<string> {
           'Authorization': `Bearer ${apiKey}`,
           'Content-Type': 'application/json',
         },
-        timeout: 60000,
       }
     );
     
@@ -166,7 +170,7 @@ export async function generateAIImage(prompt: string): Promise<string | null> {
     console.log('🎨 Generating AI image...');
     
     // 第一步：提交任务
-    const submitResponse = await axios.post(
+    const submitResponse = await axiosWithTimeout.post(
       'https://dashscope.aliyuncs.com/api/v1/services/aigc/text2image/image-synthesis', // 修正：使用正确的通义万相端点
       {
         model: 'wanx-v1',
@@ -185,7 +189,6 @@ export async function generateAIImage(prompt: string): Promise<string | null> {
           'Content-Type': 'application/json',
           'X-DashScope-Async': 'enable', // 异步任务
         },
-        timeout: 30000,
       }
     );
     
@@ -203,13 +206,12 @@ export async function generateAIImage(prompt: string): Promise<string | null> {
     for (let attempt = 0; attempt < maxAttempts; attempt++) {
       await new Promise(resolve => setTimeout(resolve, 2000)); // 等待 2 秒
       
-      const statusResponse = await axios.get(
+      const statusResponse = await axiosWithTimeout.get(
         `https://dashscope.aliyuncs.com/api/v1/tasks/${taskId}`,
         {
           headers: {
             'Authorization': `Bearer ${apiKey}`,
           },
-          timeout: 10000,
         }
       );
       
