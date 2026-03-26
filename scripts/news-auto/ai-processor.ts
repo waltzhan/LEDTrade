@@ -199,9 +199,9 @@ export async function generateAIImage(prompt: string): Promise<string | null> {
     
     console.log(`  Task ID: ${taskId}`);
     
-    // 第二步：轮询任务状态（最长等待 60 秒）
+    // 第二步：轮询任务状态（缩短等待时间）
     let imageUrl: string | null = null;
-    const maxAttempts = 30; // 30 * 2s = 60s
+    const maxAttempts = 15; // 减少到 15 次 * 2s = 30s
     
     for (let attempt = 0; attempt < maxAttempts; attempt++) {
       await new Promise(resolve => setTimeout(resolve, 2000)); // 等待 2 秒
@@ -365,8 +365,8 @@ export async function processArticles(articles: RawArticle[]): Promise<Processed
       const result = await processArticle(article);
       processed.push(result);
 
-      // 避免API限流
-      await new Promise(resolve => setTimeout(resolve, 2000));
+      // 减少延迟避免超时
+      await new Promise(resolve => setTimeout(resolve, 500));
     } catch (error) {
       console.error(`Failed to process article: ${article.title}`, error);
     }

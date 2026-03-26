@@ -6,7 +6,7 @@
 export const NEWS_CONFIG = {
   // 发布设置
   publish: {
-    maxArticlesPerDay: 5, // 临时增加到 5 篇用于测试 AI 生图
+    maxArticlesPerDay: 2, // 减少到 2 篇，避免 Vercel 超时
     publishTimes: ['09:00', '15:00'], // 目标市场时区
     autoPublish: true,
   },
