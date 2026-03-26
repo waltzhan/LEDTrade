@@ -39,8 +39,8 @@ export function isInPublishWindow(): boolean {
   const beijingMinute = now.getUTCMinutes();
   const currentTime = `${String(beijingHour).padStart(2, '0')}:${String(beijingMinute).padStart(2, '0')}`;
 
-  // Vercel Hobby 套餐 Cron 有 ±1 小时浮动误差，窗口设为 ±90 分钟
-  const timeWindowMinutes = 90;
+  // Vercel Hobby 套餐 Cron 有 ±1 小时浮动误差，窗口设为 120 分钟覆盖更广
+  const timeWindowMinutes = 120;
 
   for (const publishTime of NEWS_CONFIG.publish.publishTimes) {
     const [hour, minute] = publishTime.split(':').map(Number);
