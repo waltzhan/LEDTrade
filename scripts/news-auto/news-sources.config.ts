@@ -81,8 +81,8 @@ export const NEWS_SOURCES: NewsSource[] = [
     category: 'technical',
     language: 'zh',
     priority: 3,
-    enabled: false, // 暂停使用，led.ofweek.com 已关闭
-    notes: '⚠️ led.ofweek.com DNS 错误，可能已关闭，等待验证新地址',
+    enabled: true,
+    notes: 'OFweek 主站 RSS，已启用',
   },
   {
     name: '中国照明网',
@@ -92,8 +92,8 @@ export const NEWS_SOURCES: NewsSource[] = [
     category: 'technical',
     language: 'zh',
     priority: 4,
-    enabled: false, // 暂停使用，连接超时
-    notes: '⚠️ 连接超时（211.147.242.53:443），可能需要 UA 伪装或代理',
+    enabled: true,
+    notes: '中国照明行业门户，已启用',
   },
   {
     name: '机器之心',
