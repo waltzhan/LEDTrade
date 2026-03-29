@@ -49,17 +49,13 @@ export async function runNewsAutomation(): Promise<void> {
       return;
     }
 
-    // 3. 根据剩余配额限制处理数量
+    // 3. 先全量去重，再按配额取（修复：原来先切片再去重导致配额内全重复时发布0篇）
     const quota = await getPublishQuota();
-    const articlesToProcess = rawArticles.slice(0, quota);
-    console.log(`\n📝 Processing ${articlesToProcess.length} articles (quota: ${quota})`);
-
-    // 3.5 预检查重复（在 AI 处理之前过滤掉已存在的文章）
-    console.log(`\n🔍 Pre-checking for duplicates...`);
-    const { nonDuplicate, duplicates } = await filterNonDuplicateArticles(articlesToProcess);
+    console.log(`\n🔍 Pre-checking for duplicates (total: ${rawArticles.length})...`);
+    const { nonDuplicate, duplicates } = await filterNonDuplicateArticles(rawArticles);
     console.log(`   ✓ Non-duplicate articles: ${nonDuplicate.length}`);
     console.log(`   ⏭️  Duplicates found: ${duplicates.length}`);
-    
+
     if (nonDuplicate.length === 0) {
       console.log('\n⚠️  No new articles to process (all are duplicates)');
       console.log('\n📊 ====== 任务完成摘要 ======');
@@ -71,16 +67,19 @@ export async function runNewsAutomation(): Promise<void> {
       return;
     }
 
-    // 4. AI 处理（只处理非重复的文章）
-    const processedArticles = await processArticles(nonDuplicate);
+    // 4. 从非重复文章中按配额取，再 AI 处理
+    const articlesToProcess = nonDuplicate.slice(0, quota);
+    console.log(`\n📝 Processing ${articlesToProcess.length} articles (quota: ${quota}, available: ${nonDuplicate.length})`);
+
+    const processedArticles = await processArticles(articlesToProcess);
     if (processedArticles.length === 0) {
       console.log('❌ Article processing failed');
       return;
     }
 
-    // 5. 构建 sourceMap（使用非重复的文章列表）
+    // 5. 构建 sourceMap
     const sourceMap = new Map<string, { url: string; name: string; imageUrl?: string }>();
-    nonDuplicate.forEach((raw, index) => {
+    articlesToProcess.forEach((raw, index) => {
       if (processedArticles[index]) {
         sourceMap.set(processedArticles[index].title.zh, {
           url: raw.link,
